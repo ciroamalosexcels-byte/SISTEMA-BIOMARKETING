@@ -4618,17 +4618,16 @@ const APPS_SCRIPT_CODE_V14 = `const SHEET_NAMES = {
   gestion: "EVENTOS_GESTION"
 };
 
-const LEAD_HEADERS = ["id","nombre","empresa","observaciones","telefono","responsable1","responsable2","responsables","direccion","fechaContacto","empresaBio","medio","etapa","seguimiento","proximaFecha","rowOrder"];
-const CLIENT_HEADERS = ["id","nombre","empresa","responsable","servicio","telefono","email","instagram","direccion","mesEntrada","objetivos","rubro","estado","orden","source"];
+const LEAD_HEADERS = ["id","nombre","empresa","observaciones","telefono","responsable1","responsable2","responsables","direccion","fechaContacto","empresaBio","medio","etapa","seguimiento","proximaFecha","rowOrder","email","instagram","mesEntrada","objetivos","rubro","estado","servicio","planAudiovisual","clientOrder","ordenCliente","source"];
+const CLIENT_HEADERS = ["id","nombre","empresa","responsable","servicio","telefono","email","instagram","direccion","mesEntrada","objetivos","rubro","estado","orden","source","responsable1","responsable2","responsables","observaciones","fechaContacto","empresaBio","medio","etapa","seguimiento","proximaFecha","planAudiovisual","clientOrder","ordenCliente","rowOrder"];
 const CONTENT_HEADERS = ["id","clientId","encargado","fecha","hora","tipo","estado","objetivo","frase","copy","archivo","comentarios","timerTotalMs","timerRunning","timerStartedAt","done","contentOrder"];
 const GESTION_HEADERS = ["id","clientId","fecha","hora","tipo","motivo","done"];
 
 function doGet(e) {
   try {
     const sheetName = e && e.parameter ? e.parameter.sheet : "";
-
     if (sheetName) {
-      if (sheetName === SHEET_NAMES.leads) return jsonResponse(getLeads());
+      if (sheetName === SHEET_NAMES.leads) return jsonResponse(getTableSheet(SHEET_NAMES.leads, LEAD_HEADERS));
       if (sheetName === SHEET_NAMES.team) return jsonResponse([JSON.stringify(getJsonSheet(SHEET_NAMES.team, []))]);
       if (sheetName === SHEET_NAMES.dashboard) return jsonResponse([JSON.stringify(getJsonSheet(SHEET_NAMES.dashboard, { todayGoals: {}, clientsGoal: 21, chartScale: 1 }))]);
       if (sheetName === SHEET_NAMES.columns) return jsonResponse([JSON.stringify(getJsonSheet(SHEET_NAMES.columns, {}))]);
@@ -4639,13 +4638,13 @@ function doGet(e) {
       if (sheetName === SHEET_NAMES.gestion) return jsonResponse(getTableSheet(SHEET_NAMES.gestion, GESTION_HEADERS));
       return jsonResponse([]);
     }
-
     initializeSheets_();
-
     return jsonResponse({
       ok: true,
+      version: "2.0",
+      lastVersionDate: "2026-05-08",
       data: {
-        rows: getLeads(),
+        rows: getTableSheet(SHEET_NAMES.leads, LEAD_HEADERS),
         team: getJsonSheet(SHEET_NAMES.team, []),
         dashboardSettings: getJsonSheet(SHEET_NAMES.dashboard, { todayGoals: {}, clientsGoal: 21, chartScale: 1 }),
         columnWidths: getJsonSheet(SHEET_NAMES.columns, {}),
@@ -4665,14 +4664,15 @@ function doPost(e) {
   try {
     const body = JSON.parse(e.postData.contents || "{}");
     const action = body.action;
-
     if (action === "initializeSheets") {
       initializeSheets_();
       return jsonResponse({ ok: true, message: "Hojas inicializadas correctamente" });
     }
-
     if (action === "saveAll") {
-      saveLeads(body.rows || []);
+      const rows = normalizeLeadRows_(body.rows || []);
+      const clients = Array.isArray(body.clients) ? normalizeClientRows_(body.clients) : clientsFromRows_(rows);
+      saveTableSheet(SHEET_NAMES.leads, LEAD_HEADERS, rows);
+      saveTableSheet(SHEET_NAMES.clients, CLIENT_HEADERS, clients);
       saveJsonSheet(SHEET_NAMES.team, body.team || []);
       saveJsonSheet(SHEET_NAMES.dashboard, body.dashboardSettings || { todayGoals: {}, clientsGoal: 21, chartScale: 1 });
       saveJsonSheet(SHEET_NAMES.columns, body.columnWidths || {});
@@ -4680,17 +4680,14 @@ function doPost(e) {
       saveJsonSheet(SHEET_NAMES.awarded, body.awarded || {});
       saveTableSheet(SHEET_NAMES.content, CONTENT_HEADERS, normalizeContentRows_(body.contentEvents || []));
       saveTableSheet(SHEET_NAMES.gestion, GESTION_HEADERS, normalizeGestionRows_(body.managementEvents || []));
-      if (Array.isArray(body.clients)) saveTableSheet(SHEET_NAMES.clients, CLIENT_HEADERS, body.clients);
       return jsonResponse({ ok: true, message: "Guardado completo en Google Sheets" });
     }
-
     if (action === "saveSheet") {
       const sheetName = String(body.sheet || "").trim();
       const rows = Array.isArray(body.rows) ? body.rows : Array.isArray(body.data) ? body.data : [];
       if (!sheetName) return jsonResponse({ ok: false, error: "Falta nombre de hoja" });
-
-      if (sheetName === SHEET_NAMES.leads) { saveLeads(rows); return jsonResponse({ ok: true, message: "Leads guardados" }); }
-      if (sheetName === SHEET_NAMES.clients) { saveTableSheet(SHEET_NAMES.clients, CLIENT_HEADERS, rows); return jsonResponse({ ok: true, message: "Clientes guardados" }); }
+      if (sheetName === SHEET_NAMES.leads) { saveTableSheet(SHEET_NAMES.leads, LEAD_HEADERS, normalizeLeadRows_(rows)); return jsonResponse({ ok: true, message: "Leads guardados" }); }
+      if (sheetName === SHEET_NAMES.clients) { saveTableSheet(SHEET_NAMES.clients, CLIENT_HEADERS, normalizeClientRows_(rows)); return jsonResponse({ ok: true, message: "Clientes guardados" }); }
       if (sheetName === SHEET_NAMES.content) { saveTableSheet(SHEET_NAMES.content, CONTENT_HEADERS, normalizeContentRows_(rows)); return jsonResponse({ ok: true, message: "Planificación guardada" }); }
       if (sheetName === SHEET_NAMES.gestion) { saveTableSheet(SHEET_NAMES.gestion, GESTION_HEADERS, normalizeGestionRows_(rows)); return jsonResponse({ ok: true, message: "Eventos de gestión guardados" }); }
       if (sheetName === SHEET_NAMES.team) { saveJsonSheet(SHEET_NAMES.team, rows); return jsonResponse({ ok: true, message: "Equipo guardado" }); }
@@ -4698,18 +4695,8 @@ function doPost(e) {
       if (sheetName === SHEET_NAMES.columns) { saveJsonSheet(SHEET_NAMES.columns, parseJsonFromRows_(rows)); return jsonResponse({ ok: true, message: "ColumnWidths guardado" }); }
       if (sheetName === SHEET_NAMES.appSettings) { saveJsonSheet(SHEET_NAMES.appSettings, parseJsonFromRows_(rows)); return jsonResponse({ ok: true, message: "AppSettings guardado" }); }
       if (sheetName === SHEET_NAMES.awarded) { saveJsonSheet(SHEET_NAMES.awarded, parseJsonFromRows_(rows)); return jsonResponse({ ok: true, message: "AwardedBadges guardado" }); }
-
       return jsonResponse({ ok: false, error: "Hoja no soportada: " + sheetName });
     }
-
-    if (action === "connectCalendar") {
-      return jsonResponse({ ok: true, message: "Calendar preparado. La sincronización avanzada se puede agregar después." });
-    }
-
-    if (action === "upsertCalendarEvent") {
-      return jsonResponse({ ok: true, message: "Evento recibido" });
-    }
-
     return jsonResponse({ ok: false, error: "Acción no soportada: " + action });
   } catch (error) {
     return jsonResponse({ ok: false, error: getErrorMessage_(error) });
@@ -4728,9 +4715,62 @@ function initializeSheets_() {
   ensureJsonSheet_(SHEET_NAMES.awarded, {});
 }
 
-function ensureJsonSheet_(sheetName, fallback) {
-  const sheet = getOrCreateSheet(sheetName);
-  if (!sheet.getRange(1, 1).getValue()) sheet.getRange(1, 1).setValue(JSON.stringify(fallback));
+function normalizeLeadRows_(rows) {
+  return (rows || []).map(function(row, index) {
+    row = row || {};
+    const out = {};
+    LEAD_HEADERS.forEach(function(h) { out[h] = row[h] !== undefined && row[h] !== null ? row[h] : ""; });
+    out.rowOrder = out.rowOrder || index + 1;
+    out.responsables = out.responsables || buildResponsables_(out.responsable1, out.responsable2);
+    return out;
+  });
+}
+
+function normalizeClientRows_(rows) {
+  return (rows || []).map(function(row, index) { return clientFromAnyRow_(row, index); });
+}
+
+function clientsFromRows_(rows) {
+  return (rows || [])
+    .filter(function(row) { return String(row.etapa || "").toUpperCase() === "CLIENTES"; })
+    .map(function(row, index) { return clientFromAnyRow_(row, index); });
+}
+
+function clientFromAnyRow_(row, index) {
+  row = row || {};
+  const responsable = row.responsable || row.responsables || buildResponsables_(row.responsable1, row.responsable2);
+  const orden = row.orden || row.clientOrder || row.ordenCliente || row.rowOrder || index + 1;
+  return {
+    id: row.id || "",
+    nombre: row.nombre || "",
+    empresa: row.empresa || "",
+    responsable: responsable || "",
+    servicio: row.servicio || "",
+    telefono: row.telefono || "",
+    email: row.email || "",
+    instagram: row.instagram || "",
+    direccion: row.direccion || "",
+    mesEntrada: row.mesEntrada || "",
+    objetivos: row.objetivos || "",
+    rubro: row.rubro || "",
+    estado: row.estado || "Activo",
+    orden: orden,
+    source: row.source || row.medio || "Leads",
+    responsable1: row.responsable1 || "",
+    responsable2: row.responsable2 || "",
+    responsables: row.responsables || responsable || "",
+    observaciones: row.observaciones || "",
+    fechaContacto: row.fechaContacto || "",
+    empresaBio: row.empresaBio || "BIOMARKETING",
+    medio: row.medio || "",
+    etapa: "CLIENTES",
+    seguimiento: row.seguimiento || "",
+    proximaFecha: row.proximaFecha || "",
+    planAudiovisual: row.planAudiovisual || "",
+    clientOrder: orden,
+    ordenCliente: orden,
+    rowOrder: row.rowOrder || ""
+  };
 }
 
 function normalizeContentRows_(rows) {
@@ -4761,129 +4801,29 @@ function normalizeContentRows_(rows) {
 function normalizeGestionRows_(rows) {
   return (rows || []).map(function(row) {
     row = row || {};
-    return {
-      id: row.id || "",
-      clientId: row.clientId || "",
-      fecha: row.fecha || row.date || "",
-      hora: row.hora || row.time || "",
-      tipo: row.tipo || row.type || "",
-      motivo: row.motivo || row.reason || "",
-      done: row.done || false
-    };
+    return { id: row.id || "", clientId: row.clientId || "", fecha: row.fecha || row.date || "", hora: row.hora || row.time || "", tipo: row.tipo || row.type || "", motivo: row.motivo || row.reason || "", done: row.done || false };
   });
 }
 
-function parseJsonFromRows_(rows) {
-  const first = rows && rows[0] ? rows[0] : {};
-  return parseJsonCell_(first.json || first.JSON || first.data || first.Data || first.settings || first.Settings || first.widths || first.Widths || first.A || "{}");
+function buildResponsables_(r1, r2) {
+  r1 = r1 || ""; r2 = r2 || "";
+  if (r1 && r2) return r1 + " Y " + r2;
+  return r1 || r2 || "";
 }
 
-function getSpreadsheet() {
-  return SpreadsheetApp.getActiveSpreadsheet();
-}
-
-function getOrCreateSheet(name) {
-  const ss = getSpreadsheet();
-  let sheet = ss.getSheetByName(name);
-  if (!sheet) sheet = ss.insertSheet(name);
-  return sheet;
-}
-
-function ensureHeaders(sheet, headers) {
-  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
-}
-
-function getLeads() {
-  const sheet = getOrCreateSheet(SHEET_NAMES.leads);
-  ensureHeaders(sheet, LEAD_HEADERS);
-  const lastRow = sheet.getLastRow();
-  if (lastRow < 2) return [];
-  const values = sheet.getRange(2, 1, lastRow - 1, LEAD_HEADERS.length).getValues();
-  return values.filter(function(row) {
-    return row.some(function(cell) { return cell !== "" && cell !== null; });
-  }).map(function(row) {
-    const lead = {};
-    LEAD_HEADERS.forEach(function(header, index) { lead[header] = formatCellValue_(row[index]); });
-    return lead;
-  });
-}
-
-function saveLeads(rows) {
-  const sheet = getOrCreateSheet(SHEET_NAMES.leads);
-  sheet.clearContents();
-  ensureHeaders(sheet, LEAD_HEADERS);
-  if (!Array.isArray(rows) || rows.length === 0) return;
-  const values = rows.map(function(row, index) {
-    return LEAD_HEADERS.map(function(header) {
-      if (header === "rowOrder") return row && row[header] !== undefined ? row[header] : index + 1;
-      return row && row[header] !== undefined && row[header] !== null ? row[header] : "";
-    });
-  });
-  sheet.getRange(2, 1, values.length, LEAD_HEADERS.length).setValues(values);
-}
-
-function getTableSheet(sheetName, headers) {
-  const sheet = getOrCreateSheet(sheetName);
-  ensureHeaders(sheet, headers);
-  const lastRow = sheet.getLastRow();
-  if (lastRow < 2) return [];
-  const values = sheet.getRange(2, 1, lastRow - 1, headers.length).getValues();
-  return values.filter(function(row) {
-    return row.some(function(cell) { return cell !== "" && cell !== null; });
-  }).map(function(row) {
-    const item = {};
-    headers.forEach(function(header, index) { item[header] = formatCellValue_(row[index]); });
-    return item;
-  });
-}
-
-function saveTableSheet(sheetName, headers, rows) {
-  const sheet = getOrCreateSheet(sheetName);
-  sheet.clearContents();
-  ensureHeaders(sheet, headers);
-  if (!Array.isArray(rows) || rows.length === 0) return;
-  const values = rows.map(function(row) {
-    return headers.map(function(header) {
-      return !row || row[header] === undefined || row[header] === null ? "" : row[header];
-    });
-  });
-  sheet.getRange(2, 1, values.length, headers.length).setValues(values);
-}
-
-function getJsonSheet(sheetName, fallback) {
-  const sheet = getOrCreateSheet(sheetName);
-  const value = sheet.getRange(1, 1).getValue();
-  if (!value) return fallback;
-  try { return JSON.parse(value); } catch (error) { return fallback; }
-}
-
-function saveJsonSheet(sheetName, data) {
-  const sheet = getOrCreateSheet(sheetName);
-  sheet.clearContents();
-  sheet.getRange(1, 1).setValue(JSON.stringify(data || null));
-}
-
-function parseJsonCell_(value) {
-  if (!value) return {};
-  if (typeof value === "object") return value;
-  try { return JSON.parse(String(value)); } catch (error) { return {}; }
-}
-
-function formatCellValue_(value) {
-  if (value === null || value === undefined) return "";
-  if (Object.prototype.toString.call(value) === "[object Date]") {
-    return Utilities.formatDate(value, Session.getScriptTimeZone(), "yyyy-MM-dd HH:mm:ss");
-  }
-  return value;
-}
-
-function getErrorMessage_(error) {
-  return String(error && error.message ? error.message : error);
-}
-
-function jsonResponse(payload) {
-  return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(ContentService.MimeType.JSON);
-}
+function ensureJsonSheet_(sheetName, fallback) { const sheet = getOrCreateSheet(sheetName); if (!sheet.getRange(1, 1).getValue()) sheet.getRange(1, 1).setValue(JSON.stringify(fallback)); }
+function parseJsonFromRows_(rows) { const first = rows && rows[0] ? rows[0] : {}; return parseJsonCell_(first.json || first.JSON || first.data || first.Data || first.settings || first.Settings || first.widths || first.Widths || first.A || "{}"); }
+function getSpreadsheet() { return SpreadsheetApp.getActiveSpreadsheet(); }
+function getOrCreateSheet(name) { const ss = getSpreadsheet(); let sheet = ss.getSheetByName(name); if (!sheet) sheet = ss.insertSheet(name); return sheet; }
+function ensureHeaders(sheet, headers) { sheet.getRange(1, 1, 1, headers.length).setValues([headers]); }
+function getTableSheet(sheetName, headers) { const sheet = getOrCreateSheet(sheetName); ensureHeaders(sheet, headers); const lastRow = sheet.getLastRow(); if (lastRow < 2) return []; const values = sheet.getRange(2, 1, lastRow - 1, headers.length).getValues(); return values.filter(function(row) { return row.some(function(cell) { return cell !== "" && cell !== null; }); }).map(function(row) { const item = {}; headers.forEach(function(header, index) { item[header] = formatCellValue_(row[index]); }); return item; }); }
+function saveTableSheet(sheetName, headers, rows) { const sheet = getOrCreateSheet(sheetName); sheet.clearContents(); ensureHeaders(sheet, headers); if (!Array.isArray(rows) || rows.length === 0) return; const values = rows.map(function(row) { return headers.map(function(header) { return !row || row[header] === undefined || row[header] === null ? "" : row[header]; }); }); sheet.getRange(2, 1, values.length, headers.length).setValues(values); }
+function getJsonSheet(sheetName, fallback) { const sheet = getOrCreateSheet(sheetName); const value = sheet.getRange(1, 1).getValue(); if (!value) return fallback; try { return JSON.parse(value); } catch (error) { return fallback; } }
+function saveJsonSheet(sheetName, data) { const sheet = getOrCreateSheet(sheetName); sheet.clearContents(); sheet.getRange(1, 1).setValue(JSON.stringify(data || null)); }
+function parseJsonCell_(value) { if (!value) return {}; if (typeof value === "object") return value; try { return JSON.parse(String(value)); } catch (error) { return {}; } }
+function formatCellValue_(value) { if (value === null || value === undefined) return ""; if (Object.prototype.toString.call(value) === "[object Date]") return Utilities.formatDate(value, Session.getScriptTimeZone(), "yyyy-MM-dd HH:mm:ss"); return value; }
+function getErrorMessage_(error) { return String(error && error.message ? error.message : error); }
+function jsonResponse(payload) { return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(ContentService.MimeType.JSON); }
 `;
 
 function copyTextV14(text, successMessage){
@@ -5298,260 +5238,101 @@ applyRowHeightV16();
 
 
 
-/* ===== PATCH V19: guardado paralelo de clientes + estado/servicio persistentes ===== */
-const CLIENT_SERVICE_OPTIONS_V19 = ["Contenido Audiovisual","Publicidad","Estratégia","Página web","Branding","Eventos"];
-const CLIENT_STATUS_OPTIONS_V19 = ["Activo","Inactivo"];
-
-function buildClientSheetRowsV19(rows){
-  const clientRows=(rows||[]).filter(row=>String(row.etapa||"").toUpperCase()==="CLIENTES");
-  const order=Array.isArray(state.appSettings?.clientOrder) ? state.appSettings.clientOrder.map(String) : [];
-  const orderIndex=(row,index)=>{
-    const idx=order.indexOf(String(row.id));
-    if(idx>=0) return idx+1;
-    const n=Number(row.clientOrder ?? row.ordenCliente ?? row.orden);
-    return Number.isFinite(n) && n>0 ? n : index+1;
-  };
-  return clientRows.map((row,index)=>({
-    id: row.id || "",
-    nombre: row.nombre || "",
-    empresa: row.empresa || "",
-    responsable: row.responsables || buildResponsablesText(row),
-    servicio: row.servicio || "",
-    telefono: row.telefono || "",
-    email: row.email || "",
-    instagram: row.instagram || "",
-    direccion: row.direccion || "",
-    mesEntrada: row.mesEntrada || "",
-    objetivos: row.objetivos || row.observaciones || "",
-    rubro: row.rubro || "",
-    estado: row.estado || "Activo",
-    orden: orderIndex(row,index),
-    source: row.source || row.medio || row.origen || "Leads"
-  }));
+/* ===== PATCH V20: guardado integral Sheets + clientes paralelos + versión ===== */
+const SYSTEM_VERSION_V20 = "2.0";
+const SYSTEM_LAST_VERSION_DATE_V20 = "2026-05-08";
+function nextLeadIdV20(){
+  const maxId=(state.rows||[]).reduce((max,row)=>Math.max(max,Number(String(row.id||'').replace(/\D/g,''))||0),0);
+  return `L-${String(maxId+1).padStart(3,'0')}`;
 }
-
-function mergeClientSheetRowsIntoStateV19(clientRows){
-  if(!Array.isArray(clientRows) || !clientRows.length) return;
-  const byId=new Map((state.rows||[]).map(row=>[String(row.id),row]));
-  clientRows.forEach((client,index)=>{
-    if(!client || !client.id) return;
-    const id=String(client.id);
-    const target=byId.get(id) || {id, etapa:"CLIENTES", fechaContacto:""};
-    target.etapa="CLIENTES";
-    target.nombre=client.nombre || target.nombre || "";
-    target.empresa=client.empresa || target.empresa || "";
-    target.telefono=client.telefono || target.telefono || "";
-    target.email=client.email || target.email || "";
-    target.instagram=client.instagram || target.instagram || "";
-    target.direccion=client.direccion || target.direccion || "";
-    target.mesEntrada=client.mesEntrada || target.mesEntrada || "";
-    target.objetivos=client.objetivos || target.objetivos || "";
-    target.rubro=client.rubro || target.rubro || "";
-    target.estado=client.estado || target.estado || "Activo";
-    target.servicio=client.servicio || target.servicio || "";
-    target.source=client.source || target.source || "CLIENTES_BIOMARKETING";
-    target.clientOrder=client.orden || target.clientOrder || index+1;
-    if(client.responsable && !target.responsables) target.responsables=client.responsable;
-    if(client.responsable && !target.responsable1){
-      const parts=String(client.responsable).split(/\s+y\s+|,|\/|\|/i).map(x=>x.trim()).filter(Boolean);
-      target.responsable1=parts[0] || target.responsable1 || "";
-      target.responsable2=parts[1] || target.responsable2 || "";
-    }
-    target.responsables=buildResponsablesText(target);
-    if(!byId.has(id)){state.rows.push(target);byId.set(id,target);}    
+function clientToSheetRowV20(row,index){
+  row=row||{};
+  const orden=row.orden||row.clientOrder||row.ordenCliente||index+1;
+  return {
+    id:row.id||'',nombre:row.nombre||'',empresa:row.empresa||'',responsable:row.responsables||buildResponsablesText(row)||'',servicio:row.servicio||'',telefono:row.telefono||'',email:row.email||'',instagram:row.instagram||'',direccion:row.direccion||'',mesEntrada:row.mesEntrada||'',objetivos:row.objetivos||'',rubro:row.rubro||'',estado:row.estado||'Activo',orden:orden,source:row.source||row.medio||'Leads',responsable1:row.responsable1||'',responsable2:row.responsable2||'',responsables:row.responsables||buildResponsablesText(row)||'',observaciones:row.observaciones||'',fechaContacto:row.fechaContacto||'',empresaBio:row.empresaBio||'BIOMARKETING',medio:row.medio||'',etapa:'CLIENTES',seguimiento:row.seguimiento||'',proximaFecha:row.proximaFecha||'',planAudiovisual:row.planAudiovisual||'',clientOrder:orden,ordenCliente:orden,rowOrder:row.rowOrder||''
+  };
+}
+function clientsSheetRowsV20(){
+  normalizeClientOrderV10?.();
+  return (typeof getClientsRows==='function'?getClientsRows():(state.rows||[]).filter(r=>String(r.etapa).toUpperCase()==='CLIENTES')).map(clientToSheetRowV20);
+}
+function mergeClientsIntoRowsV20(clients){
+  if(!Array.isArray(clients)||!clients.length)return;
+  const map=new Map((state.rows||[]).map(r=>[String(r.id),r]));
+  clients.forEach((c,i)=>{
+    if(!c||!c.id)return;
+    const id=String(c.id);
+    const target=map.get(id)||{id};
+    Object.assign(target,{...c,etapa:'CLIENTES',responsable1:c.responsable1||target.responsable1||'',responsable2:c.responsable2||target.responsable2||'',responsables:c.responsables||c.responsable||target.responsables||'',clientOrder:c.clientOrder||c.orden||i+1,ordenCliente:c.ordenCliente||c.orden||i+1,source:c.source||target.source||'Leads'});
+    if(!map.has(id)){state.rows=[target,...(state.rows||[])];map.set(id,target);}
   });
 }
-
-async function loadClientsSheetV19(){
+async function saveAllToGoogleSheetsV20(){
+  normalizeAllContentEventsV15?.();
+  const payload={action:'saveAll',rows:state.rows,clients:clientsSheetRowsV20(),team:state.team,dashboardSettings:state.dashboardSettings,columnWidths:state.columnWidths,appSettings:state.appSettings,awarded:state.awarded,contentEvents:state.contentEvents,managementEvents:state.managementEvents};
+  const response=await fetch(getGoogleSheetsApiUrl(),{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+  if(!response.ok) throw new Error(`HTTP ${response.status}`);
+  const result=await response.json();
+  if(!result.ok) throw new Error(result.error||'Google Sheets no confirmó el guardado integral');
+  return result;
+}
+saveAllToGoogleSheets=saveAllToGoogleSheetsV20;
+loadFromGoogleSheets=async function(){
   try{
-    const response=await fetch(`${getGoogleSheetsApiUrl()}?sheet=CLIENTES_BIOMARKETING&t=${Date.now()}`,{method:"GET",cache:"no-store"});
-    if(!response.ok) return;
-    const rows=await response.json();
-    if(Array.isArray(rows)){mergeClientSheetRowsIntoStateV19(rows);normalizeStateRows();persistAll();}
-  }catch(e){console.warn("No se pudo cargar CLIENTES_BIOMARKETING",e);}
-}
-
-const __loadFromGoogleSheetsV19 = loadFromGoogleSheets;
-loadFromGoogleSheets = async function(){
-  await __loadFromGoogleSheetsV19();
-  await loadClientsSheetV19();
+    const response=await fetch(`${getGoogleSheetsApiUrl()}?t=${Date.now()}`,{method:'GET',cache:'no-store'});
+    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload=await response.json();
+    if(!payload.ok||!payload.data) throw new Error(payload.error||'Respuesta inválida de Google Sheets');
+    const data=payload.data;
+    if(Array.isArray(data.rows)&&data.rows.length>0) state.rows=migrateLegacyRows(data.rows);
+    mergeClientsIntoRowsV20(data.clients||[]);
+    if(Array.isArray(data.team)&&data.team.length>0) state.team=uniqueNames([...DEFAULT_TEAM,...data.team]);
+    if(data.dashboardSettings&&typeof data.dashboardSettings==='object') state.dashboardSettings={todayGoals:data.dashboardSettings.todayGoals||{},clientsGoal:Number(data.dashboardSettings.clientsGoal)>0?Number(data.dashboardSettings.clientsGoal):21,chartScale:Number(data.dashboardSettings.chartScale)||Number(state.dashboardSettings.chartScale)||1};
+    if(data.columnWidths&&typeof data.columnWidths==='object') state.columnWidths={...getDefaultColumnWidths(),...data.columnWidths};
+    if(Array.isArray(data.contentEvents)) state.contentEvents=data.contentEvents.map(contentEventFromSheetRowV13).map((e,i)=>normalizeContentEventV15(e,i));
+    if(Array.isArray(data.managementEvents)) state.managementEvents=data.managementEvents.map(gestionEventFromSheetRowV13);
+    if(data.appSettings&&typeof data.appSettings==='object') state.appSettings={...DEFAULT_APP_SETTINGS,...state.appSettings,...data.appSettings,badgeRequirements:{...DEFAULT_APP_SETTINGS.badgeRequirements,...(state.appSettings.badgeRequirements||{}),...(data.appSettings.badgeRequirements||{})}};
+    if(data.awarded&&typeof data.awarded==='object') state.awarded=data.awarded;
+    initGoalsForTeam();normalizeStateRows();ensureLayoutDefaultsV17();persistAll();render();checkBadgeAwards();checkTodayMeetingNotifications();showToast('Datos cargados desde Google Sheets');
+  }catch(error){console.error('No se pudo cargar desde Google Sheets:',error);showToast('Usando datos locales');}
 };
-
-saveAllToGoogleSheets = function(){
-  const payload={
-    action:'saveAll',
-    rows:state.rows,
-    clients:buildClientSheetRowsV19(state.rows),
-    team:state.team,
-    dashboardSettings:state.dashboardSettings,
-    columnWidths:state.columnWidths,
-    appSettings:state.appSettings,
-    awarded:state.awarded,
-    contentEvents:state.contentEvents,
-    managementEvents:state.managementEvents
-  };
-  return fetch(getGoogleSheetsApiUrl(),{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).then(async response=>{if(!response.ok) throw new Error(`HTTP ${response.status}`);const result=await response.json();if(!result.ok) throw new Error(result.error || 'Google Sheets no confirmó el guardado');return result;});
+openClientCreateModal=function(){
+  const id=nextLeadIdV20();
+  const newClient={id,nombre:'',empresa:'',observaciones:'',telefono:'',responsable1:'',responsable2:'',responsables:'',direccion:'',fechaContacto:formatNow(),empresaBio:'BIOMARKETING',medio:'',etapa:'CLIENTES',seguimiento:'',proximaFecha:'',estado:'Activo',servicio:'',source:'Manual',clientOrder:getClientsRows().length+1,ordenCliente:getClientsRows().length+1};
+  state.rows=[newClient,...(state.rows||[])];
+  state.activeTab='CLIENTES';state.activeClientId=id;persistAll();render();openClientDataModal(id);
 };
-
-function optionListV19(options,current,placeholder){
-  const clean=[...new Set([current,...options].filter(Boolean))];
-  return [`<option value="">${escapeHTML(placeholder||'Seleccionar')}</option>`,...clean.map(x=>`<option value="${escapeAttr(x)}" ${String(current||'')===String(x)?'selected':''}>${escapeHTML(x)}</option>`)].join('');
-}
-
-openClientDataModal = function(id){
+openClientDataModal=function(id){
   const row=state.rows.find(r=>String(r.id)===String(id)); if(!row) return;
-  const servicioActual=row.servicio || '';
-  const estadoActual=row.estado || 'Activo';
-  const backdrop=document.createElement("div");
-  backdrop.id="clientDataTempModal";
-  backdrop.className="modal-backdrop open client-data-modal reference-data-modal";
-  backdrop.innerHTML=`<div class="modal"><div class="modal-header"><h2 class="modal-title">Datos del cliente</h2><button class="icon-btn" type="button" onclick="closeClientDataTempModal()">${iconSVG("close")}</button></div><div class="modal-body"><div class="client-data-grid">
-    <input id="cd_nombre" value="${escapeAttr(row.nombre||"")}" placeholder="Nombre"><input id="cd_empresa" value="${escapeAttr(row.empresa||"")}" placeholder="Empresa">
-    <input id="cd_telefono" value="${escapeAttr(row.telefono||"")}" placeholder="Teléfono"><input id="cd_direccion" value="${escapeAttr(row.direccion||"")}" placeholder="Dirección">
-    <select id="cd_responsable1">${['',...state.team].map(x=>`<option value="${escapeAttr(x)}" ${row.responsable1===x?"selected":""}>${escapeHTML(x||"Responsable 1")}</option>`).join("")}</select><select id="cd_empresaBio">${EMPRESA_BIO_OPTS.map(x=>`<option value="${escapeAttr(x)}" ${row.empresaBio===x?"selected":""}>${escapeHTML(x)}</option>`).join("")}</select>
-    <input id="cd_email" value="${escapeAttr(row.email||"")}" placeholder="Mail"><input id="cd_instagram" value="${escapeAttr(row.instagram||"")}" placeholder="Instagram">
-    <input id="cd_mesEntrada" value="${escapeAttr(row.mesEntrada||"")}" placeholder="Mes entrada"><input id="cd_rubro" value="${escapeAttr(row.rubro||"")}" placeholder="Rubro">
-    <div class="readonly-field">Origen: ${escapeHTML(row.medio||row.origen||row.source||"Leads")}</div><select id="cd_estado">${optionListV19(CLIENT_STATUS_OPTIONS_V19,estadoActual,'Estado')}</select>
-    <select id="cd_responsable2">${['',...state.team].map(x=>`<option value="${escapeAttr(x)}" ${row.responsable2===x?"selected":""}>${escapeHTML(x||"Responsable 2")}</option>`).join("")}</select><select id="cd_servicio">${optionListV19(CLIENT_SERVICE_OPTIONS_V19,servicioActual,'Servicio')}</select>
-    <textarea id="cd_observaciones" placeholder="Observaciones / Objetivos">${escapeHTML(row.observaciones||row.objetivos||"")}</textarea>
-  </div></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="closeClientDataTempModal()">Cancelar</button><button class="btn btn-amber" type="button" onclick="saveClientDataTempModal('${escapeHTML(row.id)}')">Guardar</button></div></div>`;
-  document.body.appendChild(backdrop);
-};
-
-saveClientDataTempModal = function(id){
-  const row=state.rows.find(r=>String(r.id)===String(id)); if(!row) return;
-  [["nombre","cd_nombre"],["empresa","cd_empresa"],["telefono","cd_telefono"],["direccion","cd_direccion"],["responsable1","cd_responsable1"],["responsable2","cd_responsable2"],["empresaBio","cd_empresaBio"],["servicio","cd_servicio"],["estado","cd_estado"],["email","cd_email"],["instagram","cd_instagram"],["mesEntrada","cd_mesEntrada"],["rubro","cd_rubro"],["observaciones","cd_observaciones"],["objetivos","cd_observaciones"]].forEach(([key,el])=>{const input=document.getElementById(el); if(input) row[key]=input.value;});
-  row.etapa='CLIENTES';
-  row.responsables=buildResponsablesText(row);
-  row.source=row.source || row.medio || row.origen || 'Leads';
-  persistAll();markDirty();closeClientDataTempModal();renderClientV11Panel();scheduleAutoSave();
-};
-
-
-/* ===== PATCH V20: cliente modal unificado + cierre modal + orden clientes + versión sistema ===== */
-const SYSTEM_VERSION_V20 = '2.0';
-const SYSTEM_VERSION_DATE_V20 = '08/05/2026';
-const NEW_CLIENT_TEMP_ID_V20 = '__new_client__';
-
-function buildClientDataModalV20(row, opts={}){
-  const isNew=!!opts.isNew;
-  const servicioActual=row.servicio || '';
-  const estadoActual=row.estado || 'Activo';
-  const title=isNew ? 'Añadir cliente' : 'Datos del cliente';
-  const saveId=isNew ? NEW_CLIENT_TEMP_ID_V20 : row.id;
-  const origen=row.medio || row.origen || row.source || (isNew ? 'CLIENTES' : 'Leads');
-  const old=document.getElementById('clientDataTempModal'); if(old) old.remove();
-  const backdrop=document.createElement('div');
-  backdrop.id='clientDataTempModal';
-  backdrop.className='modal-backdrop open client-data-modal reference-data-modal';
-  backdrop.innerHTML=`<div class="modal"><div class="modal-header"><h2 class="modal-title">${escapeHTML(title)}</h2><button class="icon-btn" type="button" onclick="closeClientDataTempModal()">${iconSVG('close')}</button></div><div class="modal-body"><div class="client-data-grid">
+  const servicios=['Contenido Audiovisual','Publicidad','estratégia','pagina web','Branding','Eventos'];
+  const servicioActual=row.servicio||'';
+  const serviceOptions=[...new Set(['',servicioActual,...servicios].filter(x=>x!==undefined))].map(x=>`<option value="${escapeAttr(x)}" ${servicioActual===x?'selected':''}>${escapeHTML(x||'Servicio')}</option>`).join('');
+  const estado=row.estado||'Activo';
+  const backdrop=document.createElement('div');backdrop.id='clientDataTempModal';backdrop.className='modal-backdrop open client-data-modal reference-data-modal';
+  backdrop.innerHTML=`<div class="modal"><div class="modal-header"><h2 class="modal-title">Datos del cliente</h2><button class="icon-btn" type="button" onclick="closeClientDataTempModal()">${iconSVG('close')}</button></div><div class="modal-body"><div class="client-data-grid">
     <input id="cd_nombre" value="${escapeAttr(row.nombre||'')}" placeholder="Nombre"><input id="cd_empresa" value="${escapeAttr(row.empresa||'')}" placeholder="Empresa">
     <input id="cd_telefono" value="${escapeAttr(row.telefono||'')}" placeholder="Teléfono"><input id="cd_direccion" value="${escapeAttr(row.direccion||'')}" placeholder="Dirección">
-    <select id="cd_responsable1">${['',...state.team].map(x=>`<option value="${escapeAttr(x)}" ${row.responsable1===x?'selected':''}>${escapeHTML(x||'Responsable 1')}</option>`).join('')}</select><select id="cd_empresaBio">${EMPRESA_BIO_OPTS.map(x=>`<option value="${escapeAttr(x)}" ${(row.empresaBio||'BIOMARKETING')===x?'selected':''}>${escapeHTML(x)}</option>`).join('')}</select>
+    <select id="cd_responsable1">${['',...state.team].map(x=>`<option value="${escapeAttr(x)}" ${row.responsable1===x?'selected':''}>${escapeHTML(x||'Responsable 1')}</option>`).join('')}</select><select id="cd_servicio" onchange="toggleClientPlanField()">${serviceOptions}</select>
     <input id="cd_email" value="${escapeAttr(row.email||'')}" placeholder="Mail"><input id="cd_instagram" value="${escapeAttr(row.instagram||'')}" placeholder="Instagram">
     <input id="cd_mesEntrada" value="${escapeAttr(row.mesEntrada||'')}" placeholder="Mes entrada"><input id="cd_rubro" value="${escapeAttr(row.rubro||'')}" placeholder="Rubro">
-    <div class="readonly-field">Origen: ${escapeHTML(origen)}</div><select id="cd_estado">${optionListV19(CLIENT_STATUS_OPTIONS_V19,estadoActual,'Estado')}</select>
-    <select id="cd_responsable2">${['',...state.team].map(x=>`<option value="${escapeAttr(x)}" ${row.responsable2===x?'selected':''}>${escapeHTML(x||'Responsable 2')}</option>`).join('')}</select><select id="cd_servicio">${optionListV19(CLIENT_SERVICE_OPTIONS_V19,servicioActual,'Servicio')}</select>
-    <textarea id="cd_observaciones" placeholder="Observaciones / Objetivos">${escapeHTML(row.observaciones||row.objetivos||'')}</textarea>
-  </div></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="closeClientDataTempModal()">Cancelar</button><button class="btn btn-amber" type="button" onclick="saveClientDataTempModal('${escapeAttr(saveId)}')">Guardar</button></div></div>`;
-  document.body.appendChild(backdrop);
-  setTimeout(()=>document.getElementById('cd_nombre')?.focus(),0);
-}
-
-openClientCreateModal=function(){
-  state.creatingClientFromClientsTab=true;
-  buildClientDataModalV20({
-    id:NEW_CLIENT_TEMP_ID_V20,
-    estado:'Activo',
-    empresaBio:'BIOMARKETING',
-    medio:'CLIENTES',
-    source:'CLIENTES',
-    etapa:'CLIENTES'
-  },{isNew:true});
+    <div class="readonly-field">Origen: ${escapeHTML(row.medio||row.origen||row.source||'Leads')}</div><select id="cd_estado"><option value="Activo" ${estado==='Activo'?'selected':''}>Activo</option><option value="Inactivo" ${estado==='Inactivo'?'selected':''}>Inactivo</option></select>
+    <select id="cd_planAudiovisual" class="${servicioActual==='Contenido Audiovisual'?'':'field-hidden'}"><option value="" ${(row.planAudiovisual||'')===''?'selected':''}>Plan</option><option value="Plan 1" ${row.planAudiovisual==='Plan 1'?'selected':''}>Plan 1</option><option value="Plan 2" ${row.planAudiovisual==='Plan 2'?'selected':''}>Plan 2</option><option value="Plan 3" ${row.planAudiovisual==='Plan 3'?'selected':''}>Plan 3</option></select><select id="cd_responsable2">${['',...state.team].map(x=>`<option value="${escapeAttr(x)}" ${row.responsable2===x?'selected':''}>${escapeHTML(x||'Responsable 2')}</option>`).join('')}</select>
+    <input id="cd_objetivos" value="${escapeAttr(row.objetivos||'')}" placeholder="Objetivos"><input id="cd_source" value="${escapeAttr(row.source||row.medio||'Leads')}" placeholder="Source">
+    <textarea id="cd_observaciones" placeholder="Observaciones">${escapeHTML(row.observaciones||'')}</textarea>
+  </div></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="closeClientDataTempModal()">Cancelar</button><button class="btn btn-amber" type="button" onclick="saveClientDataTempModal('${escapeHTML(row.id)}')">Guardar</button></div></div>`;
+  document.body.appendChild(backdrop);toggleClientPlanField();
 };
-
-openClientDataModal=function(id){
-  const row=state.rows.find(r=>String(r.id)===String(id));
-  if(!row) return;
-  buildClientDataModalV20(row,{isNew:false});
-};
-
-function readClientModalFieldsV20(target){
-  [["nombre","cd_nombre"],["empresa","cd_empresa"],["telefono","cd_telefono"],["direccion","cd_direccion"],["responsable1","cd_responsable1"],["responsable2","cd_responsable2"],["empresaBio","cd_empresaBio"],["servicio","cd_servicio"],["estado","cd_estado"],["email","cd_email"],["instagram","cd_instagram"],["mesEntrada","cd_mesEntrada"],["rubro","cd_rubro"],["observaciones","cd_observaciones"],["objetivos","cd_observaciones"]].forEach(([key,el])=>{const input=document.getElementById(el); if(input) target[key]=input.value;});
-  target.etapa='CLIENTES';
-  target.responsables=buildResponsablesText(target);
-  target.source=target.source || target.medio || target.origen || 'Leads';
-  target.medio=target.medio || target.source || 'PRESENCIAL';
-  return target;
-}
-
 saveClientDataTempModal=function(id){
-  let row=null;
-  const isNew=String(id)===NEW_CLIENT_TEMP_ID_V20;
-  if(isNew){
-    const maxId=state.rows.reduce((max,item)=>Math.max(max,Number(String(item.id||'').replace(/\D/g,''))||0),0);
-    row={
-      id:`L-${String(maxId+1).padStart(3,'0')}`,
-      fechaContacto:formatNow(),
-      etapa:'CLIENTES',
-      clientOrder:getClientsRows().length+1,
-      ordenCliente:getClientsRows().length+1,
-      source:'CLIENTES',
-      medio:'PRESENCIAL',
-      empresaBio:'BIOMARKETING',
-      estado:'Activo'
-    };
-    readClientModalFieldsV20(row);
-    if(!String(row.nombre||'').trim() && !String(row.empresa||'').trim()){
-      alert('Ingresá al menos el nombre o la empresa del cliente.');
-      return;
-    }
-    state.rows=[row,...state.rows];
-  }else{
-    row=state.rows.find(r=>String(r.id)===String(id));
-    if(!row) return;
-    readClientModalFieldsV20(row);
-  }
-  state.activeTab='CLIENTES';
-  state.activeClientId=isNew ? '' : row.id;
-  state.creatingClientFromClientsTab=false;
-  persistAll();
-  markDirty();
-  closeClientDataTempModal();
-  if(isNew){renderClientsV11();}else{renderClientV11Panel();}
-  setTimeout(()=>{try{saveChanges();}catch(e){try{scheduleAutoSave();}catch(_){}}},0);
-  showToast(isNew ? 'Cliente creado y guardado' : 'Datos del cliente guardados');
+  const row=state.rows.find(r=>String(r.id)===String(id)); if(!row)return;
+  [['nombre','cd_nombre'],['empresa','cd_empresa'],['telefono','cd_telefono'],['direccion','cd_direccion'],['responsable1','cd_responsable1'],['responsable2','cd_responsable2'],['servicio','cd_servicio'],['email','cd_email'],['instagram','cd_instagram'],['mesEntrada','cd_mesEntrada'],['rubro','cd_rubro'],['estado','cd_estado'],['planAudiovisual','cd_planAudiovisual'],['objetivos','cd_objetivos'],['source','cd_source'],['observaciones','cd_observaciones']].forEach(([key,el])=>{const input=document.getElementById(el);if(input)row[key]=input.value;});
+  row.etapa='CLIENTES';row.responsables=buildResponsablesText(row);if(!row.clientOrder)row.clientOrder=getClientsRows().length;if(!row.ordenCliente)row.ordenCliente=row.clientOrder;markDirty();persistAll();closeClientDataTempModal();renderClientV11Panel();scheduleAutoSave();saveAllToGoogleSheetsV20().catch(e=>console.warn(e));
 };
-
 finishClientOrderMode=function(){
-  normalizeClientOrderV10();
-  state.appSettings.clientOrderMode=false;
-  state.activeTab='CLIENTES';
-  state.activeClientId='';
-  markDirty();
-  persistAll();
-  try{persistAppSettings();}catch(e){}
-  closeSettingsMenu();
-  renderClientsV11();
-  setTimeout(()=>{
-    document.querySelectorAll('#clientsGridV11 [data-client-card]').forEach(card=>{
-      card.removeAttribute('draggable');
-      card.classList.remove('dragging');
-      card.style.cursor='pointer';
-    });
-    try{saveChanges().finally(()=>{state.appSettings.clientOrderMode=false;persistAll();renderClientsV11();});}catch(error){console.error(error);}
-  },0);
-  showToast('Orden de clientes guardado');
+  normalizeClientOrderV10();state.appSettings.clientOrderMode=false;state.activeTab='CLIENTES';state.activeClientId='';persistAll();markDirty();closeSettingsMenu();renderClientsV11();renderTabs();updateSaveButton();document.querySelectorAll('#clientsGridV11 [data-client-card]').forEach(card=>{card.removeAttribute('draggable');card.classList.remove('dragging');});const banner=document.querySelector('.client-order-banner');if(banner)banner.remove();scheduleAutoSave();saveAllToGoogleSheetsV20().catch(e=>console.warn(e));showToast('Orden de clientes guardado');
 };
-
 showSystemInfo=function(){
-  launchConfetti();
-  playSuccessSound();
-  const old=document.getElementById('systemInfoTempModal'); if(old) old.remove();
-  const backdrop=document.createElement('div');
-  backdrop.id='systemInfoTempModal';
-  backdrop.className='modal-backdrop open reference-data-modal';
-  backdrop.innerHTML=`<div class="modal" style="max-width:900px"><div class="modal-header"><h2 class="modal-title">Información del sistema</h2><button class="icon-btn" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">${iconSVG('close')}</button></div><div class="modal-body" style="text-align:center;display:block;padding:42px 24px"><h3 style="font-size:18px;font-weight:900;margin:0 0 14px;color:#07152f">Creador del sistema ventas</h3><div style="font-size:40px;font-weight:900;letter-spacing:-.04em;color:#07152f;line-height:1">Ciro Meza</div><div style="margin:22px auto 0;display:grid;gap:8px;max-width:360px"><div class="readonly-field" style="justify-content:center">Versión: ${SYSTEM_VERSION_V20}</div><div class="readonly-field" style="justify-content:center">Última actualización: ${SYSTEM_VERSION_DATE_V20}</div></div><p style="font-weight:800;color:#64748b;margin:18px 0 0">Gracias por usar el sistema</p></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">Cerrar</button></div></div>`;
+  const backdrop=document.createElement('div');backdrop.id='systemInfoTempModal';backdrop.className='modal-backdrop open';
+  backdrop.innerHTML=`<div class="modal" style="max-width:900px"><div class="modal-header"><h2 class="modal-title">Información del sistema</h2><button class="icon-btn" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">${iconSVG('close')}</button></div><div class="modal-body" style="text-align:center;display:block;padding:42px 24px"><h3 style="font-size:18px;font-weight:900;margin:0 0 14px;color:#07152f">Creador del sistema ventas</h3><div style="font-size:40px;font-weight:900;letter-spacing:-.04em;color:#07152f;line-height:1">Ciro Meza</div><p style="font-weight:900;color:#07152f;margin:22px 0 0">Versión ${SYSTEM_VERSION_V20}</p><p style="font-weight:800;color:#64748b;margin:8px 0 0">Última actualización: ${SYSTEM_LAST_VERSION_DATE_V20}</p><p style="font-weight:800;color:#64748b;margin:18px 0 0">Gracias por usar el sistema</p></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">Cerrar</button></div></div>`;
   document.body.appendChild(backdrop);
 };
 
