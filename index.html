@@ -470,6 +470,22 @@ body.dark-mode .reference-data-modal .modal-title{color:#fff!important}
 .api-url-zone{display:grid;gap:10px;margin:24px 0 10px}.api-url-zone>label:first-child{font-size:12px;font-weight:900;color:#07152f;text-transform:uppercase}.api-check{display:flex!important;align-items:center!important;gap:10px!important;font-size:13px!important;font-weight:800!important;color:#475569!important}.api-action-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.api-guide-box .field{border-radius:16px!important;min-height:42px!important}
 body.dark-mode .api-guide-modal .modal-body,body.dark-mode .api-guide-box{background:#0b1220!important;color:#e5e7eb!important;border-color:#243044!important}body.dark-mode .api-guide-box h3,body.dark-mode .api-guide-box h4,body.dark-mode .api-guide-box b,body.dark-mode .api-url-zone>label:first-child{color:#fff!important}body.dark-mode .api-check{color:#cbd5e1!important}
 
+
+
+/* PATCH V21 — Modal cliente compacto */
+.client-data-modal.reference-data-modal .modal{width:min(900px,calc(100vw - 28px))!important;max-height:86vh!important;border-radius:24px!important}
+.client-data-modal.reference-data-modal .modal-header{min-height:62px!important;padding:0 22px!important}
+.client-data-modal.reference-data-modal .modal-title{font-size:24px!important}
+.client-data-modal.reference-data-modal .modal-body{padding:14px 22px!important}
+.client-data-modal.reference-data-modal .client-data-grid{gap:10px 16px!important}
+.client-data-modal.reference-data-modal .client-data-grid input,
+.client-data-modal.reference-data-modal .client-data-grid select,
+.client-data-modal.reference-data-modal .client-data-grid textarea,
+.client-data-modal.reference-data-modal .readonly-field{min-height:46px!important;border-radius:15px!important;padding:0 14px!important;font-size:14px!important}
+.client-data-modal.reference-data-modal .client-data-grid textarea{min-height:82px!important;padding-top:12px!important}
+.client-data-modal.reference-data-modal .modal-footer{min-height:68px!important;padding:12px 22px!important}
+.client-data-modal.reference-data-modal .btn{min-height:42px!important;border-radius:14px!important;padding:0 18px!important}
+
 </style>
 </head>
 
@@ -688,7 +704,18 @@ body.dark-mode .api-guide-modal .modal-body,body.dark-mode .api-guide-box{backgr
           <li>Guardar con Ctrl + S.</li>
         </ol>
 
-        <h4>PASO 3 — PUBLICAR EL SISTEMA</h4>
+        <h4>PASO 3 — ACTIVAR PERMISOS DE CALENDAR EN appsscript.json</h4>
+        <ol>
+          <li>En Apps Script, abrir <b>Configuración del proyecto</b>.</li>
+          <li>Activar <b>Mostrar archivo de manifiesto “appsscript.json” en el editor</b>.</li>
+          <li>Volver al editor y abrir <b>appsscript.json</b>.</li>
+          <li>Hacer click en <button id="copyManifestBtn" class="inline-copy-btn" type="button">Copiar appsscript.json</button></li>
+          <li>Pegar el contenido en <b>appsscript.json</b> y guardar.</li>
+          <li>Ejecutar una función manualmente, por ejemplo <b>doGet</b>, para que Google pida autorización.</li>
+          <li>Aceptar los permisos de Google Sheets y Google Calendar.</li>
+        </ol>
+
+        <h4>PASO 4 — PUBLICAR EL SISTEMA</h4>
         <ol>
           <li>Hacer click en <b>Implementar</b>.</li>
           <li>Elegir <b>Nueva implementación</b>.</li>
@@ -701,7 +728,7 @@ body.dark-mode .api-guide-modal .modal-body,body.dark-mode .api-guide-box{backgr
           <li>Copiar la URL que aparece debajo de <b>Aplicación web</b>. No copiar el ID de implementación.</li>
         </ol>
 
-        <h4>PASO 4 — CONECTAR EL HTML CON GOOGLE SHEETS</h4>
+        <h4>PASO 5 — CONECTAR EL HTML CON GOOGLE SHEETS</h4>
         <ol>
           <li>Pegar abajo el enlace del Web App terminado en <b>/exec</b>.</li>
           <li>Hacer click en <b>Inicializar hoja</b> para crear todas las pestañas ordenadas.</li>
@@ -719,7 +746,7 @@ body.dark-mode .api-guide-modal .modal-body,body.dark-mode .api-guide-box{backgr
           </div>
         </div>
 
-        <h4>PASO 5 — QUÉ SE GUARDA EN GOOGLE SHEETS</h4>
+        <h4>PASO 6 — QUÉ SE GUARDA EN GOOGLE SHEETS</h4>
         <ul>
           <li>CRM general, reunión 1, reunión 2, seguimiento, base de datos y clientes.</li>
           <li>Integrantes del equipo.</li>
@@ -1891,17 +1918,17 @@ function buildCalendarEventsFromRows(){
 async function connectGoogleCalendar(){
   const apiUrl=getGoogleSheetsApiUrl();
   if(!apiUrl){showToast("Primero cargá el link API");return;}
-  state.appSettings.calendarId=normalizeApiUrl(els.calendarIdInput.value) || "primary";
+  const calendarId=String(els.calendarIdInput.value || "primary").trim() || "primary";
+  state.appSettings.calendarId=calendarId;
   const events=els.syncExistingCalendarEvents.checked ? buildCalendarEventsFromRows() : [];
   try{
-    const response=await fetch(apiUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"connectCalendar",calendarId:state.appSettings.calendarId,events})});
+    const response=await fetch(apiUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"connectCalendar",calendarId,events})});
     const result=await response.json().catch(()=>({}));
-    if(result.authUrl){window.open(result.authUrl,"_blank");showToast("Autorizá Google Calendar");return;}
-    if(result.ok===false) throw new Error(result.error || "No se pudo conectar Calendar");
+    if(!response.ok || result.ok===false) throw new Error(result.error || "No se pudo conectar Calendar");
     state.appSettings.calendarConnected=true;
     persistAppSettings();
     closeCalendarSettingsModal();
-    showToast("Google Calendar conectado");
+    showToast(`Google Calendar conectado${Number.isFinite(Number(result.synced)) ? ` · ${result.synced} eventos` : ""}`);
   }catch(error){
     console.error("No se pudo conectar Calendar:",error);
     showToast("Error Calendar: " + (error.message || "revisá el Apps Script"));
@@ -1915,7 +1942,7 @@ async function syncCalendarEventFromRow(row){
   try{
     const response=await fetch(getGoogleSheetsApiUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"upsertCalendarEvent",calendarId:state.appSettings.calendarId || "primary",event})});
     const result=await response.json().catch(()=>({}));
-    if(result.ok===false) throw new Error(result.error || "Error Calendar");
+    if(!response.ok || result.ok===false) throw new Error(result.error || "Error Calendar");
   }catch(error){
     console.warn("No se pudo sincronizar evento con Calendar:",error);
   }
@@ -4641,7 +4668,7 @@ function doGet(e) {
     initializeSheets_();
     return jsonResponse({
       ok: true,
-      version: "2.0",
+      version: "2.1-calendar",
       lastVersionDate: "2026-05-08",
       data: {
         rows: getTableSheet(SHEET_NAMES.leads, LEAD_HEADERS),
@@ -4682,6 +4709,22 @@ function doPost(e) {
       saveTableSheet(SHEET_NAMES.gestion, GESTION_HEADERS, normalizeGestionRows_(body.managementEvents || []));
       return jsonResponse({ ok: true, message: "Guardado completo en Google Sheets" });
     }
+    if (action === "connectCalendar") {
+      const calendarId = String(body.calendarId || "primary").trim() || "primary";
+      const events = Array.isArray(body.events) ? body.events : [];
+      const synced = connectCalendar_(calendarId, events);
+      const appSettings = getJsonSheet(SHEET_NAMES.appSettings, {});
+      appSettings.calendarId = calendarId;
+      appSettings.calendarConnected = true;
+      saveJsonSheet(SHEET_NAMES.appSettings, appSettings);
+      return jsonResponse({ ok: true, calendarId: calendarId, synced: synced, message: "Google Calendar conectado" });
+    }
+    if (action === "upsertCalendarEvent") {
+      const calendarId = String(body.calendarId || "primary").trim() || "primary";
+      if (!body.event) return jsonResponse({ ok: false, error: "Falta el evento para Calendar" });
+      const result = upsertCalendarEvent_(calendarId, body.event);
+      return jsonResponse({ ok: true, calendarId: calendarId, eventId: result.eventId, htmlLink: result.htmlLink, message: "Evento sincronizado" });
+    }
     if (action === "saveSheet") {
       const sheetName = String(body.sheet || "").trim();
       const rows = Array.isArray(body.rows) ? body.rows : Array.isArray(body.data) ? body.data : [];
@@ -4714,6 +4757,76 @@ function initializeSheets_() {
   ensureJsonSheet_(SHEET_NAMES.appSettings, {});
   ensureJsonSheet_(SHEET_NAMES.awarded, {});
 }
+
+function connectCalendar_(calendarId, events) {
+  const calendar = getCalendar_(calendarId);
+  let synced = 0;
+  (events || []).forEach(function(event) {
+    if (!event || !event.date) return;
+    upsertCalendarEvent_(calendarId, event);
+    synced++;
+  });
+  return synced;
+}
+
+function upsertCalendarEvent_(calendarId, event) {
+  const calendar = getCalendar_(calendarId);
+  const bmId = String(event.id || event.clientId || Utilities.getUuid()).trim();
+  const start = buildCalendarDate_(event.date, event.time || "09:00");
+  const end = new Date(start.getTime() + 60 * 60 * 1000);
+  const title = String(event.title || event.clientName || "Evento Biomarketing").trim();
+  const description = buildCalendarDescription_(bmId, event);
+  const existing = findCalendarEventByBmId_(calendar, start, bmId);
+  if (existing) {
+    existing.setTitle(title);
+    existing.setTime(start, end);
+    existing.setDescription(description);
+    return { eventId: existing.getId(), htmlLink: "" };
+  }
+  const created = calendar.createEvent(title, start, end, { description: description });
+  return { eventId: created.getId(), htmlLink: "" };
+}
+
+function getCalendar_(calendarId) {
+  calendarId = String(calendarId || "primary").trim();
+  if (!calendarId || calendarId === "primary") return CalendarApp.getDefaultCalendar();
+  const calendar = CalendarApp.getCalendarById(calendarId);
+  if (!calendar) throw new Error("No se encontró el calendario: " + calendarId);
+  return calendar;
+}
+
+function buildCalendarDate_(dateValue, timeValue) {
+  const dateText = String(dateValue || "").trim();
+  const timeText = String(timeValue || "09:00").trim() || "09:00";
+  const match = dateText.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!match) throw new Error("Fecha inválida para Calendar: " + dateText);
+  const timeMatch = timeText.match(/^(\d{1,2}):(\d{2})/);
+  const hour = timeMatch ? Number(timeMatch[1]) : 9;
+  const minute = timeMatch ? Number(timeMatch[2]) : 0;
+  return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]), hour, minute, 0, 0);
+}
+
+function findCalendarEventByBmId_(calendar, startDate, bmId) {
+  const from = new Date(startDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const to = new Date(startDate.getTime() + 30 * 24 * 60 * 60 * 1000);
+  const marker = "BM_EVENT_ID:" + bmId;
+  const events = calendar.getEvents(from, to, { search: marker });
+  for (let i = 0; i < events.length; i++) {
+    if (String(events[i].getDescription() || "").indexOf(marker) !== -1) return events[i];
+  }
+  return null;
+}
+
+function buildCalendarDescription_(bmId, event) {
+  const lines = [
+    "BM_EVENT_ID:" + bmId,
+    event.clientName ? "Cliente: " + event.clientName : "",
+    event.clientId ? "Cliente ID: " + event.clientId : "",
+    event.notes ? String(event.notes) : ""
+  ];
+  return lines.filter(Boolean).join("\n");
+}
+
 
 function normalizeLeadRows_(rows) {
   return (rows || []).map(function(row, index) {
@@ -5334,6 +5447,77 @@ showSystemInfo=function(){
   const backdrop=document.createElement('div');backdrop.id='systemInfoTempModal';backdrop.className='modal-backdrop open';
   backdrop.innerHTML=`<div class="modal" style="max-width:900px"><div class="modal-header"><h2 class="modal-title">Información del sistema</h2><button class="icon-btn" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">${iconSVG('close')}</button></div><div class="modal-body" style="text-align:center;display:block;padding:42px 24px"><h3 style="font-size:18px;font-weight:900;margin:0 0 14px;color:#07152f">Creador del sistema ventas</h3><div style="font-size:40px;font-weight:900;letter-spacing:-.04em;color:#07152f;line-height:1">Ciro Meza</div><p style="font-weight:900;color:#07152f;margin:22px 0 0">Versión ${SYSTEM_VERSION_V20}</p><p style="font-weight:800;color:#64748b;margin:8px 0 0">Última actualización: ${SYSTEM_LAST_VERSION_DATE_V20}</p><p style="font-weight:800;color:#64748b;margin:18px 0 0">Gracias por usar el sistema</p></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">Cerrar</button></div></div>`;
   document.body.appendChild(backdrop);
+};
+
+
+/* ===== PATCH V21: permisos Calendar, orden seguro y modal cliente compacto ===== */
+const APPSSCRIPT_JSON_CODE_V21 = `{
+  "timeZone": "America/Argentina/Buenos_Aires",
+  "dependencies": {},
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/calendar",
+    "https://www.googleapis.com/auth/calendar.readonly",
+    "https://www.google.com/calendar/feeds"
+  ]
+}`;
+
+document.getElementById('copyManifestBtn')?.addEventListener('click',()=>copyTextV14(APPSSCRIPT_JSON_CODE_V21,'appsscript.json copiado'));
+
+function applyClientOrderFromSheetV21(clients){
+  if(!Array.isArray(clients) || !clients.length) return;
+  const ordered=clients
+    .filter(c=>c && c.id)
+    .map((c,i)=>({id:String(c.id), order:Number(c.orden || c.clientOrder || c.ordenCliente || c.rowOrder || i+1)}))
+    .sort((a,b)=>(a.order-b.order));
+  if(!ordered.length) return;
+  state.appSettings.clientOrder=ordered.map(x=>x.id);
+}
+
+const __mergeClientsIntoRowsV20_V21 = typeof mergeClientsIntoRowsV20==='function' ? mergeClientsIntoRowsV20 : null;
+if(__mergeClientsIntoRowsV20_V21){
+  mergeClientsIntoRowsV20=function(clients){
+    applyClientOrderFromSheetV21(clients);
+    __mergeClientsIntoRowsV20_V21(clients);
+  };
+}
+
+const __clientsSheetRowsV20_V21 = typeof clientsSheetRowsV20==='function' ? clientsSheetRowsV20 : null;
+if(__clientsSheetRowsV20_V21){
+  clientsSheetRowsV20=function(){
+    const rows=(typeof getClientsRows==='function'?getClientsRows():(state.rows||[]).filter(r=>String(r.etapa).toUpperCase()==='CLIENTES'));
+    rows.forEach((row,index)=>{row.clientOrder=index+1;row.ordenCliente=index+1;row.orden=index+1;});
+    state.appSettings.clientOrder=rows.map(r=>String(r.id));
+    return rows.map(clientToSheetRowV20);
+  };
+}
+
+saveClientDataTempModal=async function(id){
+  const row=state.rows.find(r=>String(r.id)===String(id));
+  if(!row) return;
+  [['nombre','cd_nombre'],['empresa','cd_empresa'],['telefono','cd_telefono'],['direccion','cd_direccion'],['responsable1','cd_responsable1'],['responsable2','cd_responsable2'],['servicio','cd_servicio'],['email','cd_email'],['instagram','cd_instagram'],['mesEntrada','cd_mesEntrada'],['rubro','cd_rubro'],['estado','cd_estado'],['planAudiovisual','cd_planAudiovisual'],['objetivos','cd_objetivos'],['source','cd_source'],['observaciones','cd_observaciones']].forEach(([key,el])=>{const input=document.getElementById(el);if(input)row[key]=input.value;});
+  row.etapa='CLIENTES';
+  row.responsables=buildResponsablesText(row);
+  const currentOrder=getClientsRows().findIndex(r=>String(r.id)===String(id))+1;
+  row.clientOrder=row.clientOrder || currentOrder || getClientsRows().length;
+  row.ordenCliente=row.ordenCliente || row.clientOrder;
+  row.orden=row.orden || row.clientOrder;
+  markDirty();
+  persistAll();
+  closeClientDataTempModal();
+  if(state.activeTab==='CLIENTES' && state.activeClientId){renderClientV11Panel();}else{renderClientsV11();}
+  try{
+    await saveAllToGoogleSheetsV20();
+    state.dirty=false;
+    updateSaveButton?.();
+    showToast('Cliente guardado');
+  }catch(error){
+    console.error('Error guardando cliente:',error);
+    scheduleAutoSave();
+    showToast('Guardado local. Revisá la conexión con Sheets.');
+  }
 };
 
 </script>
