@@ -486,6 +486,291 @@ body.dark-mode .api-guide-modal .modal-body,body.dark-mode .api-guide-box{backgr
 .client-data-modal.reference-data-modal .modal-footer{min-height:68px!important;padding:12px 22px!important}
 .client-data-modal.reference-data-modal .btn{min-height:42px!important;border-radius:14px!important;padding:0 18px!important}
 
+
+
+/* ===== CSS PATCH 2026-05-08: panel derecho de integrante ===== */
+.team-panel-body-v22{grid-template-columns:minmax(320px,430px) minmax(300px,1fr)!important;align-items:start!important;gap:18px!important}
+.team-left-v22{min-width:0}.team-charts-v22{grid-column:1/-1;min-width:0}.team-info-card-v22{min-height:408px;border:1px solid var(--slate-200);border-radius:20px;background:#fff;padding:18px;box-shadow:var(--shadow);display:grid;align-content:start;gap:10px}.team-info-card-v22 h3{margin:0 0 6px;font-size:18px;font-weight:900;color:#07152f;text-transform:uppercase}.team-info-row-v22{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:start;border-bottom:1px solid var(--slate-200);padding:9px 0}.team-info-row-v22:last-child{border-bottom:0}.team-info-row-v22 span{font-size:12px;font-weight:900;color:#64748b;text-transform:uppercase}.team-info-row-v22 b{font-size:14px;font-weight:700;color:#07152f;white-space:pre-wrap;word-break:break-word}body.dark-mode .team-info-card-v22{background:#0b1220;border-color:#243044}body.dark-mode .team-info-card-v22 h3,body.dark-mode .team-info-row-v22 b{color:#fff}body.dark-mode .team-info-row-v22{border-color:#243044}@media(max-width:980px){.team-panel-body-v22{grid-template-columns:1fr!important}.team-charts-v22{grid-column:1!important}.team-info-row-v22{grid-template-columns:1fr}}
+
+
+
+/* ===== PATCH FINAL 2026-05-09: ventana de integrante clon mockup ===== */
+.team-panel-page.mock-team-v23{background:#fff!important;border:1px solid #e2e8f0!important;border-radius:28px!important;box-shadow:0 8px 24px rgba(15,23,42,.06)!important;overflow:hidden!important;min-height:calc(100vh - 190px)!important}
+.mock-team-v23 .team-panel-head{height:64px!important;min-height:64px!important;padding:0 16px!important;background:#f8fafc!important;border-bottom:1px solid #e2e8f0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;flex-wrap:nowrap!important}
+.mock-team-v23 .team-panel-title-wrap{display:flex!important;align-items:baseline!important;gap:13px!important;min-width:0!important}
+.mock-team-v23 .team-panel-title{margin:0!important;font-size:31px!important;line-height:1!important;font-weight:900!important;letter-spacing:-.055em!important;color:#07152f!important;text-transform:uppercase!important;white-space:nowrap!important}
+.mock-team-v23 .team-panel-sub{font-size:13px!important;line-height:1!important;font-weight:900!important;color:#07152f!important;text-transform:uppercase!important;letter-spacing:.01em!important;white-space:nowrap!important}
+.mock-team-v23 .team-panel-actions{display:flex!important;align-items:center!important;gap:8px!important;flex:0 0 auto!important}
+.mock-team-v23 .team-panel-actions .btn{height:40px!important;min-height:40px!important;border-radius:14px!important;padding:0 16px!important;font-size:13px!important;font-weight:800!important;box-shadow:none!important}
+.mock-team-v23 .team-panel-actions .btn-amber{background:#f6bf26!important;color:#050505!important;border:1px solid #e9ad00!important}
+.mock-team-v23 .team-panel-actions .btn-outline{background:#fff!important;color:#1f2937!important;border:1px solid #dbe3ef!important}
+.mock-team-v23 .team-panel-body{padding:22px 26px 0!important;display:block!important;background:#fff!important}
+.team-clone-grid-v23{display:grid!important;grid-template-columns:280px 710px minmax(520px,1fr)!important;gap:20px!important;align-items:start!important;width:100%!important}
+.team-clone-left-v23,.team-clone-monthly-v23,.team-clone-info-v23{min-width:0!important}
+.mock-team-v23 .status91-card{width:280px!important;max-width:280px!important;border-radius:14px!important;border:1px solid #dbe3ef!important;box-shadow:0 10px 26px rgba(15,23,42,.05)!important;overflow:hidden!important;background:#fff!important}
+.mock-team-v23 .status91-head{grid-template-columns:155px 125px!important;background:#000!important;color:#fff!important;border-bottom:1px solid #dbe3ef!important}
+.mock-team-v23 .status91-head-title{height:35px!important;min-height:35px!important;font-size:19px!important;font-weight:900!important;line-height:1!important;display:flex!important;align-items:center!important;justify-content:center!important;color:#fff!important}
+.mock-team-v23 .status91-updated{height:35px!important;min-height:35px!important;font-size:10px!important;font-weight:900!important;font-style:italic!important;line-height:1.02!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;padding:0!important;color:#fff!important;border-left:1px solid #dbe3ef!important}
+.mock-team-v23 .status91-row{grid-template-columns:155px 125px!important;min-height:34px!important;height:34px!important;border-bottom:1px solid #dbe3ef!important;background:#fff!important}
+.mock-team-v23 .status91-label{font-size:14px!important;font-weight:900!important;line-height:1!important;text-align:center!important;color:#000!important;text-transform:uppercase!important;padding:0 4px!important;letter-spacing:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.mock-team-v23 .status91-cell{height:34px!important;border-left:1px solid #dbe3ef!important;padding:4px 10px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:#fff!important}
+.mock-team-v23 .status91-select{width:82px!important;height:24px!important;min-height:24px!important;border-radius:999px!important;border:1px solid #d1d5db!important;padding:0 18px 0 8px!important;font-size:0!important;color:transparent!important;cursor:pointer!important;outline:none!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.55)!important}
+.team-monthly-card-v23{width:710px!important;border-radius:14px!important;overflow:hidden!important;background:#fff!important;box-shadow:0 16px 34px rgba(15,23,42,.04)!important;border:1px solid #dbe3ef!important}
+.team-monthly-table-v23{width:100%!important;min-width:0!important;border-collapse:separate!important;border-spacing:0!important;table-layout:fixed!important;margin:0!important}
+.team-monthly-table-v23 thead th{position:static!important;background:#000!important;color:#fff!important;height:35px!important;padding:0 10px!important;border-right:1px solid #dbe3ef!important;border-radius:0!important;font-size:18px!important;line-height:1!important;font-weight:900!important;text-align:left!important;text-transform:uppercase!important;letter-spacing:-.03em!important;vertical-align:middle!important;white-space:nowrap!important}
+.team-monthly-table-v23 thead th:nth-child(3),.team-monthly-table-v23 thead th:nth-child(4){text-align:center!important}
+.team-monthly-table-v23 thead th:last-child{border-right:none!important}
+.team-monthly-table-v23 tbody td{height:34px!important;min-height:34px!important;padding:0!important;border-right:1px solid #dbe3ef!important;border-bottom:1px solid #dbe3ef!important;background:#fff!important;border-top:0!important;border-left:0!important;border-radius:0!important;vertical-align:middle!important;overflow:hidden!important}
+.team-monthly-table-v23 tbody tr:last-child td{border-bottom:0!important}
+.team-monthly-table-v23 tbody td:last-child{border-right:0!important}
+.team-monthly-input-v23{width:100%!important;height:33px!important;min-height:33px!important;border:0!important;outline:none!important;background:#fff!important;color:#07152f!important;font-size:12px!important;font-weight:600!important;padding:0 10px!important;border-radius:999px!important;box-shadow:inset 0 0 0 1px #eef2f7!important}
+.team-monthly-input-v23:focus{background:#fffbeb!important;box-shadow:inset 0 0 0 2px #f6bf26!important}
+.team-monthly-date-v23{width:100%!important;height:33px!important;min-height:33px!important;border:0!important;outline:none!important;background:#fff!important;color:#07152f!important;font-size:12px!important;font-weight:700!important;padding:0 5px!important;text-align:center!important;border-radius:0!important}
+.team-monthly-date-v23:focus{background:#fffbeb!important}
+.team-monthly-state-wrap-v23{height:33px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:4px 9px!important;background:#fff!important}
+.team-monthly-state-v23{width:78px!important;height:24px!important;min-height:24px!important;border-radius:999px!important;border:1px solid #d1d5db!important;font-size:0!important;color:transparent!important;cursor:pointer!important;outline:none!important;padding:0 18px 0 8px!important;appearance:auto!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.55)!important;background:#fff!important}
+.team-monthly-state-v23.red,.status91-select.red{background:#ff1616!important;border-color:#ff1616!important}.team-monthly-state-v23.yellow,.status91-select.yellow{background:#ffc21a!important;border-color:#ffc21a!important}.team-monthly-state-v23.green,.status91-select.green{background:#157a4d!important;border-color:#157a4d!important}.team-monthly-state-v23.lime,.status91-select.lime{background:#52ff00!important;border-color:#52ff00!important}
+.team-monthly-state-v23 option,.status91-select option{font-size:13px!important;color:#111!important;background:#fff!important}
+.team-info-clone-v23{width:100%!important;border:1px solid #dbe3ef!important;border-radius:18px!important;overflow:hidden!important;background:#fff!important;box-shadow:0 14px 30px rgba(15,23,42,.04)!important}
+.team-info-title-v23{height:35px!important;background:#000!important;color:#fff!important;display:flex!important;align-items:center!important;padding:0 18px!important;font-size:20px!important;font-weight:900!important;line-height:1!important;text-transform:uppercase!important;letter-spacing:-.04em!important}
+.team-info-grid-v23{display:grid!important;grid-template-columns:1fr 1fr!important;padding:0 22px 8px!important;background:#fff!important}
+.team-info-col-v23:first-child{border-right:1px solid #e5e7eb!important;padding-right:18px!important}.team-info-col-v23:last-child{padding-left:18px!important}
+.team-info-row-v23{display:grid!important;grid-template-columns:112px 1fr!important;align-items:center!important;min-height:30px!important;border-bottom:1px solid #e5e7eb!important;gap:8px!important}
+.team-info-row-v23 span{font-size:12px!important;font-weight:900!important;color:#64748b!important;text-transform:uppercase!important;line-height:1!important;white-space:nowrap!important}
+.team-info-row-v23 b{font-size:14px!important;font-weight:900!important;color:#07152f!important;line-height:1.15!important;word-break:break-word!important;white-space:pre-wrap!important}
+.team-clone-charts-v23{margin-top:22px!important;min-width:0!important}.team-clone-charts-v23 .stat-wide{border-radius:22px!important}
+body.dark-mode .mock-team-v23,body.dark-mode .mock-team-v23 .team-panel-body,body.dark-mode .team-monthly-card-v23,body.dark-mode .team-monthly-table-v23 tbody td,body.dark-mode .team-monthly-input-v23,body.dark-mode .team-monthly-date-v23,body.dark-mode .team-monthly-state-wrap-v23,body.dark-mode .team-info-clone-v23,body.dark-mode .team-info-grid-v23{background:#0b1220!important;color:#e5e7eb!important;border-color:#243044!important}
+body.dark-mode .mock-team-v23 .team-panel-title,body.dark-mode .mock-team-v23 .team-panel-sub,body.dark-mode .team-info-row-v23 b{color:#fff!important}body.dark-mode .team-info-row-v23,body.dark-mode .team-info-col-v23:first-child{border-color:#243044!important}
+@media(max-width:1500px){.team-clone-grid-v23{grid-template-columns:280px 710px 1fr!important}.team-info-row-v23{grid-template-columns:100px 1fr!important}.team-info-row-v23 b{font-size:13px!important}}
+@media(max-width:1250px){.team-clone-grid-v23{grid-template-columns:280px 1fr!important}.team-clone-info-v23{grid-column:1/-1!important}.team-monthly-card-v23{width:100%!important}}
+@media(max-width:820px){.mock-team-v23 .team-panel-head{height:auto!important;min-height:64px!important;padding:12px 14px!important;flex-wrap:wrap!important}.mock-team-v23 .team-panel-title-wrap{flex-wrap:wrap!important}.team-clone-grid-v23{grid-template-columns:1fr!important}.mock-team-v23 .status91-card,.team-monthly-card-v23{width:100%!important;max-width:100%!important}.team-info-grid-v23{grid-template-columns:1fr!important}.team-info-col-v23:first-child{border-right:0!important;padding-right:0!important}.team-info-col-v23:last-child{padding-left:0!important}.team-monthly-table-v23 thead th{font-size:13px!important}.team-monthly-table-v23{min-width:620px!important}.team-clone-monthly-v23{overflow-x:auto!important}}
+
+
+
+/* ===== PATCH V25: ventana de integrante igual al mockup + datos sin cortes ===== */
+#teamView:has(.mock-team-v23){background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important}
+#teamView:has(.mock-team-v23)>.team-top{display:none!important}
+#teamView:has(.mock-team-v23)>.team-body{padding:0!important;display:block!important;gap:0!important;background:transparent!important}
+.team-panel-page.mock-team-v23{min-height:calc(100vh - 150px)!important;border-radius:28px!important;background:#fff!important;overflow:hidden!important}
+.mock-team-v23 .team-panel-head{height:64px!important;min-height:64px!important;padding:0 18px!important;background:#f8fafc!important;border-bottom:1px solid #e2e8f0!important}
+.mock-team-v23 .team-panel-body{padding:22px 24px 0!important;display:block!important;background:#fff!important}
+.team-clone-grid-v23{grid-template-columns:280px 760px minmax(570px,1fr)!important;gap:20px!important;align-items:start!important;width:100%!important}
+.team-monthly-card-v23{width:760px!important;max-width:760px!important}
+.team-monthly-table-v23 col:nth-child(1){width:270px!important}
+.team-monthly-table-v23 col:nth-child(2){width:330px!important}
+.team-monthly-table-v23 col:nth-child(3){width:80px!important}
+.team-monthly-table-v23 col:nth-child(4){width:80px!important}
+.team-monthly-table-v23 thead th{height:35px!important;font-size:18px!important;padding:0 10px!important;letter-spacing:-.035em!important}
+.team-monthly-table-v23 thead th:nth-child(3),.team-monthly-table-v23 thead th:nth-child(4){font-size:16px!important;text-align:center!important;padding:0 6px!important}
+.team-monthly-input-v23{height:33px!important;min-height:33px!important;border-radius:999px!important;background:#fff!important;box-shadow:inset 0 0 0 1px #edf2f7!important}
+.team-monthly-date-v23{height:33px!important;min-height:33px!important;color:transparent!important;text-align:center!important;font-size:11px!important}
+.team-monthly-date-v23::-webkit-datetime-edit{color:transparent!important}
+.team-monthly-date-v23.has-value,.team-monthly-date-v23:focus{color:#07152f!important}
+.team-monthly-date-v23.has-value::-webkit-datetime-edit,.team-monthly-date-v23:focus::-webkit-datetime-edit{color:#07152f!important}
+.team-monthly-state-wrap-v23{height:33px!important;padding:4px 8px!important}
+.team-monthly-state-v23{width:72px!important;height:24px!important;min-height:24px!important}
+.team-info-clone-v23{width:100%!important;min-width:0!important;border-radius:18px!important}
+.team-info-title-v23{height:35px!important;font-size:20px!important;padding:0 18px!important;white-space:nowrap!important}
+.team-info-grid-v23{grid-template-columns:1fr 1.14fr!important;padding:0 20px 8px!important;background:#fff!important}
+.team-info-col-v23:first-child{border-right:1px solid #e5e7eb!important;padding-right:17px!important}
+.team-info-col-v23:last-child{padding-left:17px!important}
+.team-info-row-v23{grid-template-columns:120px minmax(0,1fr)!important;min-height:30px!important;gap:8px!important;align-items:center!important}
+.team-info-col-v23:last-child .team-info-row-v23{grid-template-columns:148px minmax(0,1fr)!important}
+.team-info-row-v23 span{font-size:11px!important;font-weight:900!important;color:#64748b!important;line-height:1!important;white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important}
+.team-info-row-v23 b{font-size:13.2px!important;font-weight:900!important;color:#07152f!important;line-height:1.08!important;white-space:nowrap!important;word-break:normal!important;overflow:hidden!important;text-overflow:clip!important}
+.team-clone-charts-v23{margin-top:22px!important;min-width:0!important}
+.team-clone-charts-v23 .stat-wide{border-radius:22px!important}
+body.dark-mode #teamView:has(.mock-team-v23){background:transparent!important;border:0!important;box-shadow:none!important}
+@media(max-width:1720px){
+  .team-clone-grid-v23{grid-template-columns:280px minmax(690px,740px) minmax(500px,1fr)!important;gap:18px!important}
+  .team-monthly-card-v23{width:100%!important;max-width:740px!important}
+  .team-info-grid-v23{padding-left:18px!important;padding-right:18px!important}
+  .team-info-col-v23:last-child .team-info-row-v23{grid-template-columns:142px minmax(0,1fr)!important}
+  .team-info-row-v23 b{font-size:12.7px!important}
+}
+@media(max-width:1500px){
+  .team-clone-grid-v23{grid-template-columns:280px minmax(620px,1fr)!important}
+  .team-clone-info-v23{grid-column:1/-1!important}
+  .team-monthly-card-v23{max-width:none!important}
+  .team-info-row-v23 b{font-size:13.2px!important}
+}
+@media(max-width:820px){
+  #teamView:has(.mock-team-v23)>.team-body{padding:0!important}
+  .mock-team-v23 .team-panel-body{padding:16px 14px 0!important}
+  .team-clone-grid-v23{grid-template-columns:1fr!important}
+  .team-monthly-table-v23{min-width:660px!important}
+  .team-info-grid-v23{grid-template-columns:1fr!important}
+  .team-info-col-v23:first-child{border-right:0!important;padding-right:0!important}
+  .team-info-col-v23:last-child{padding-left:0!important}
+  .team-info-col-v23:last-child .team-info-row-v23,.team-info-row-v23{grid-template-columns:130px minmax(0,1fr)!important}
+}
+
+
+/* ===== PATCH V26: correcciones finales contra mockup Photoshop ===== */
+/* Evita que la tabla central se meta debajo del bloque de datos */
+#teamView:has(.mock-team-v23){overflow:visible!important}
+#teamView:has(.mock-team-v23)>.team-body{overflow:visible!important}
+.mock-team-v23{overflow:visible!important}
+.mock-team-v23 .team-panel-body{padding:22px 24px 0!important;overflow:visible!important}
+
+/* Redistribución real: 9.1 compacto + tabla controlada + datos con más ancho */
+.team-clone-grid-v23{
+  display:grid!important;
+  grid-template-columns:280px 710px minmax(600px,1fr)!important;
+  gap:22px!important;
+  align-items:start!important;
+  width:100%!important;
+  overflow:visible!important;
+}
+.team-clone-left-v23{width:280px!important;min-width:280px!important;max-width:280px!important;overflow:visible!important}
+.team-clone-monthly-v23{width:710px!important;min-width:710px!important;max-width:710px!important;overflow:visible!important;z-index:1!important;position:relative!important}
+.team-clone-info-v23{min-width:600px!important;overflow:visible!important;z-index:2!important;position:relative!important}
+
+/* Tabla mensual: ya no se corta ESTADO */
+.team-monthly-card-v23{width:710px!important;max-width:710px!important;min-width:710px!important;overflow:hidden!important;box-shadow:0 14px 28px rgba(15,23,42,.035)!important}
+.team-monthly-table-v23{width:710px!important;min-width:710px!important;max-width:710px!important;table-layout:fixed!important}
+.team-monthly-table-v23 col:nth-child(1){width:240px!important}
+.team-monthly-table-v23 col:nth-child(2){width:285px!important}
+.team-monthly-table-v23 col:nth-child(3){width:82px!important}
+.team-monthly-table-v23 col:nth-child(4){width:103px!important}
+.team-monthly-table-v23 thead th{font-size:17px!important;height:35px!important;padding:0 10px!important;overflow:visible!important;text-overflow:clip!important;white-space:nowrap!important}
+.team-monthly-table-v23 thead th:nth-child(3){font-size:15px!important;padding:0 6px!important;text-align:center!important}
+.team-monthly-table-v23 thead th:nth-child(4){font-size:15px!important;padding:0 7px!important;text-align:center!important;letter-spacing:-.04em!important}
+.team-monthly-state-wrap-v23{padding:4px 10px!important}
+.team-monthly-state-v23{width:78px!important;height:24px!important;min-height:24px!important}
+.team-monthly-date-v23{padding:0 4px!important}
+
+/* Datos del integrante: más ancho, sin textos cortados y con proporción de Photoshop */
+.team-info-clone-v23{width:100%!important;min-width:600px!important;max-width:none!important;border-radius:18px!important;overflow:hidden!important}
+.team-info-title-v23{height:35px!important;font-size:20px!important;padding:0 18px!important;white-space:nowrap!important;overflow:visible!important}
+.team-info-grid-v23{grid-template-columns:1fr 1.06fr!important;padding:0 20px 8px!important;background:#fff!important}
+.team-info-col-v23:first-child{padding-right:16px!important;border-right:1px solid #e5e7eb!important}
+.team-info-col-v23:last-child{padding-left:16px!important}
+.team-info-row-v23{grid-template-columns:112px minmax(0,1fr)!important;min-height:30px!important;gap:8px!important;align-items:center!important}
+.team-info-col-v23:last-child .team-info-row-v23{grid-template-columns:130px minmax(0,1fr)!important}
+.team-info-row-v23 span{font-size:11px!important;line-height:1!important;white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important}
+.team-info-row-v23 b{font-size:13px!important;line-height:1.08!important;white-space:nowrap!important;word-break:normal!important;overflow:visible!important;text-overflow:clip!important}
+
+/* Acerca las métricas al bloque superior y limpia el título del gráfico */
+.team-clone-charts-v23{margin-top:20px!important;min-width:0!important;clear:both!important}
+.team-clone-charts-v23 .stat-wide-title{font-size:22px!important;letter-spacing:-.03em!important;text-transform:none!important}
+
+@media(max-width:1720px){
+  .team-clone-grid-v23{grid-template-columns:280px 690px minmax(560px,1fr)!important;gap:20px!important}
+  .team-clone-monthly-v23,.team-monthly-card-v23,.team-monthly-table-v23{width:690px!important;min-width:690px!important;max-width:690px!important}
+  .team-monthly-table-v23 col:nth-child(1){width:230px!important}
+  .team-monthly-table-v23 col:nth-child(2){width:275px!important}
+  .team-monthly-table-v23 col:nth-child(3){width:80px!important}
+  .team-monthly-table-v23 col:nth-child(4){width:105px!important}
+  .team-clone-info-v23,.team-info-clone-v23{min-width:560px!important}
+  .team-info-col-v23:last-child .team-info-row-v23{grid-template-columns:126px minmax(0,1fr)!important}
+  .team-info-row-v23 b{font-size:12.6px!important}
+}
+@media(max-width:1540px){
+  .team-clone-grid-v23{grid-template-columns:280px minmax(620px,1fr)!important;gap:18px!important}
+  .team-clone-monthly-v23,.team-monthly-card-v23,.team-monthly-table-v23{width:100%!important;min-width:620px!important;max-width:none!important}
+  .team-clone-info-v23{grid-column:1/-1!important;min-width:0!important}
+  .team-info-clone-v23{min-width:0!important}
+  .team-info-row-v23 b{font-size:13px!important}
+}
+@media(max-width:820px){
+  .team-clone-grid-v23{grid-template-columns:1fr!important}
+  .team-clone-left-v23,.team-clone-monthly-v23,.team-clone-info-v23{width:100%!important;min-width:0!important;max-width:none!important}
+  .team-monthly-card-v23,.team-monthly-table-v23{width:100%!important;min-width:660px!important;max-width:none!important}
+  .team-clone-monthly-v23{overflow-x:auto!important}
+  .team-info-grid-v23{grid-template-columns:1fr!important}
+  .team-info-clone-v23{min-width:0!important}
+}
+
+
+
+/* ===== PATCH V27: datos arriba, encabezados chicos tipo CRM y orden final de integrante ===== */
+.team-clone-layout-v27{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:20px!important;
+  width:100%!important;
+  min-width:0!important;
+}
+.team-clone-info-v27{width:100%!important;min-width:0!important;order:1!important}
+.team-clone-main-v27{
+  display:grid!important;
+  grid-template-columns:280px minmax(620px,1fr)!important;
+  gap:20px!important;
+  align-items:start!important;
+  width:100%!important;
+  min-width:0!important;
+  order:2!important;
+}
+.team-clone-status-v27{width:280px!important;min-width:280px!important;max-width:280px!important;min-width:0!important}
+.team-clone-monthly-v27{min-width:0!important;width:100%!important;overflow:hidden!important}
+.team-clone-layout-v27 .team-info-clone-v23{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  border-radius:18px!important;
+}
+.team-clone-layout-v27 .team-info-grid-v23{
+  grid-template-columns:1fr 1fr!important;
+  padding:0 24px 8px!important;
+}
+.team-clone-layout-v27 .team-info-row-v23{grid-template-columns:130px minmax(0,1fr)!important;min-height:32px!important}
+.team-clone-layout-v27 .team-info-col-v23:last-child .team-info-row-v23{grid-template-columns:155px minmax(0,1fr)!important}
+.team-clone-layout-v27 .team-info-row-v23 span{font-size:11px!important;line-height:1!important;font-weight:900!important;white-space:nowrap!important}
+.team-clone-layout-v27 .team-info-row-v23 b{font-size:13px!important;line-height:1.1!important;font-weight:900!important;white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important;word-break:normal!important}
+.team-clone-layout-v27 .team-monthly-card-v23,
+.team-clone-layout-v27 .team-monthly-table-v23{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+}
+.team-clone-layout-v27 .team-monthly-card-v23{box-shadow:0 14px 28px rgba(15,23,42,.035)!important}
+.team-clone-layout-v27 .team-monthly-table-v23 col:nth-child(1){width:34%!important}
+.team-clone-layout-v27 .team-monthly-table-v23 col:nth-child(2){width:40%!important}
+.team-clone-layout-v27 .team-monthly-table-v23 col:nth-child(3){width:12%!important}
+.team-clone-layout-v27 .team-monthly-table-v23 col:nth-child(4){width:14%!important}
+.team-clone-layout-v27 .team-monthly-state-v23{width:76px!important}
+.team-clone-layout-v27 .team-monthly-state-wrap-v23{padding:4px 8px!important}
+
+/* Encabezados del bloque equipo con tamaño similar a encabezados del CRM */
+.team-clone-layout-v27 .team-info-title-v23,
+.team-clone-layout-v27 .team-monthly-table-v23 thead th,
+.team-clone-layout-v27 .status91-head-title{
+  font-size:13.2px!important;
+  font-weight:900!important;
+  letter-spacing:0!important;
+  line-height:1!important;
+}
+.team-clone-layout-v27 .team-info-title-v23,
+.team-clone-layout-v27 .team-monthly-table-v23 thead th{
+  height:35px!important;
+  min-height:35px!important;
+  padding:0 12px!important;
+}
+.team-clone-layout-v27 .team-monthly-table-v23 thead th:nth-child(3),
+.team-clone-layout-v27 .team-monthly-table-v23 thead th:nth-child(4){font-size:13.2px!important;text-align:center!important;padding:0 6px!important}
+.team-clone-layout-v27 .status91-head-title{height:35px!important;min-height:35px!important}
+.team-clone-layout-v27 .status91-updated{height:35px!important;min-height:35px!important;font-size:9px!important;line-height:1.03!important}
+.mock-team-v23 .month-controls-panel h3{font-size:13.2px!important;line-height:1!important;font-weight:900!important;letter-spacing:0!important}
+.mock-team-v23 .calendar-month-label-v11{font-size:13.2px!important}
+.team-clone-charts-v23{margin-top:20px!important}
+
+@media(max-width:980px){
+  .team-clone-main-v27{grid-template-columns:1fr!important}
+  .team-clone-status-v27{width:100%!important;min-width:0!important;max-width:none!important}
+  .team-clone-layout-v27 .status91-card{width:100%!important;max-width:100%!important}
+  .team-clone-monthly-v27{overflow-x:auto!important}
+  .team-clone-layout-v27 .team-monthly-card-v23,
+  .team-clone-layout-v27 .team-monthly-table-v23{min-width:660px!important}
+}
+@media(max-width:720px){
+  .team-clone-layout-v27 .team-info-grid-v23{grid-template-columns:1fr!important;padding:0 18px 8px!important}
+  .team-clone-layout-v27 .team-info-col-v23:first-child{border-right:0!important;padding-right:0!important}
+  .team-clone-layout-v27 .team-info-col-v23:last-child{padding-left:0!important}
+  .team-clone-layout-v27 .team-info-row-v23,
+  .team-clone-layout-v27 .team-info-col-v23:last-child .team-info-row-v23{grid-template-columns:140px minmax(0,1fr)!important}
+}
+
 </style>
 </head>
 
@@ -2958,7 +3243,7 @@ function showSystemInfo(){
   const backdrop=document.createElement("div");
   backdrop.id="systemInfoTempModal";
   backdrop.className="modal-backdrop open";
-  backdrop.innerHTML=`<div class="modal" style="max-width:900px"><div class="modal-header"><h2 class="modal-title">Información del sistema</h2><button class="icon-btn" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">${iconSVG("close")}</button></div><div class="modal-body" style="text-align:center;display:block;padding:42px 24px"><h3 style="font-size:18px;font-weight:900;margin:0 0 14px;color:#07152f">Creador del sistema ventas</h3><div style="font-size:40px;font-weight:900;letter-spacing:-.04em;color:#07152f;line-height:1">Ciro Meza</div><p style="font-weight:800;color:#64748b;margin:18px 0 0">Gracias por usar el sistema</p></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">Cerrar</button></div></div>`;
+  backdrop.innerHTML=`<div class="modal" style="max-width:900px"><div class="modal-header"><h2 class="modal-title">Información del sistema</h2><button class="icon-btn" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">${iconSVG("close")}</button></div><div class="modal-body" style="text-align:center;display:block;padding:42px 24px"><h3 style="font-size:18px;font-weight:900;margin:0 0 14px;color:#07152f">Creador del sistema ventas</h3><div style="font-size:40px;font-weight:900;letter-spacing:-.04em;color:#07152f;line-height:1">Ciro Meza</div><p style="font-weight:900;color:#07152f;margin:22px 0 0">Versión 2.5</p><p style="font-weight:800;color:#64748b;margin:18px 0 0">Gracias por usar el sistema</p></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">Cerrar</button></div></div>`;
   document.body.appendChild(backdrop);
 }
 
@@ -4626,6 +4911,125 @@ getSavedDashboardSettings = function(){
   return saved;
 };
 
+
+
+/* ===== PATCH 2026-05-08: Equipo - modal completo, guardado y panel derecho ===== */
+function teamProfileEmptyV22(member){
+  return {nombre:member||'',edad:'',fechaNacimiento:'',equipo:'',telefono:'',roles:'',horarios:'',status91:{},status91Updated:''};
+}
+function normalizeTeamDateV22(value){
+  const raw=String(value||'').trim();
+  if(!raw) return '';
+  if(/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+  const m=raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if(m) return `${m[3]}-${pad2(m[2])}-${pad2(m[1])}`;
+  return raw;
+}
+function formatTeamDateV22(value){
+  const raw=normalizeTeamDateV22(value);
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw || '-';
+  const [y,m,d]=raw.split('-');
+  return `${d}/${m}/${y}`;
+}
+function getTeamProfileV22(member){
+  if(!state.appSettings.teamProfiles || typeof state.appSettings.teamProfiles!=='object') state.appSettings.teamProfiles={};
+  if(!member) return teamProfileEmptyV22('');
+  if(!state.appSettings.teamProfiles[member]) state.appSettings.teamProfiles[member]=teamProfileEmptyV22(member);
+  if(!state.appSettings.teamProfiles[member].status91) state.appSettings.teamProfiles[member].status91={};
+  return state.appSettings.teamProfiles[member];
+}
+getTeamProfile=function(member){return getTeamProfileV22(member);};
+const __getSavedAppSettingsV22 = getSavedAppSettings;
+getSavedAppSettings=function(){
+  const saved=__getSavedAppSettingsV22();
+  try{
+    const raw=JSON.parse(localStorage.getItem(APP_SETTINGS_KEY)||'{}');
+    if(raw.teamProfiles && typeof raw.teamProfiles==='object') saved.teamProfiles=raw.teamProfiles;
+  }catch(e){}
+  return saved;
+};
+function renameTeamMemberV22(oldName,newName){
+  oldName=normalizeName(oldName||'');
+  newName=normalizeName(newName||'');
+  if(!newName) return oldName;
+  if(oldName && oldName!==newName && state.team.includes(newName)){
+    alert('Ya existe un integrante con ese nombre.');
+    return oldName;
+  }
+  if(!oldName){
+    state.team=uniqueNames([...(state.team||[]),newName]);
+  }else if(oldName!==newName){
+    state.team=(state.team||[]).map(m=>m===oldName?newName:m);
+    (state.rows||[]).forEach(row=>{
+      if(row.responsable1===oldName) row.responsable1=newName;
+      if(row.responsable2===oldName) row.responsable2=newName;
+      row.responsables=buildResponsablesText(row);
+    });
+    if(state.dashboardSettings?.todayGoals){state.dashboardSettings.todayGoals[newName]=state.dashboardSettings.todayGoals[oldName] ?? 9; delete state.dashboardSettings.todayGoals[oldName];}
+    if(state.awarded?.[oldName]){state.awarded[newName]=state.awarded[oldName]; delete state.awarded[oldName];}
+    if(state.appSettings?.teamProfiles?.[oldName]){state.appSettings.teamProfiles[newName]=state.appSettings.teamProfiles[oldName]; delete state.appSettings.teamProfiles[oldName];}
+    if(state.selectedTeamMember===oldName) state.selectedTeamMember=newName;
+  }
+  state.dashboardSettings.todayGoals[newName]=state.dashboardSettings.todayGoals[newName] ?? 9;
+  return newName;
+}
+function renderTeamProfileCardV22(member){
+  const p=getTeamProfile(member);
+  const rows=[
+    ['Nombre',p.nombre||member||'-'],['Edad',p.edad||calcAge(p.fechaNacimiento)||'-'],['Nacimiento',formatTeamDateV22(p.fechaNacimiento)],
+    ['Equipo',p.equipo||'-'],['Teléfono',p.telefono||'-'],['Roles',p.roles||'-'],['Horarios',p.horarios||'-'],
+    ['Signo astrológico',zodiacWestern(p.fechaNacimiento)||'-'],['Signo chino',(chineseSign(p.fechaNacimiento)||'SIGNO CHINO: -').replace('SIGNO CHINO: ','')]
+  ];
+  return `<aside class="team-info-card-v22"><h3>Datos del integrante</h3>${rows.map(([k,v])=>`<div class="team-info-row-v22"><span>${escapeHTML(k)}</span><b>${escapeHTML(v)}</b></div>`).join('')}</aside>`;
+}
+renderTeamPanel=function(member){
+  const p=getTeamProfile(member);
+  const displayName=p.nombre||member;
+  els.teamBody.innerHTML=`<section class="team-panel-page" style="grid-column:1/-1"><div class="team-panel-head"><div><h2 class="team-panel-title">${escapeHTML(displayName)}</h2><div class="team-panel-sub">PANEL PERSONAL DEL INTEGRANTE</div></div><div class="team-panel-actions"><button class="btn btn-amber btn-sm" type="button" onclick="openTeamDataModal('${escapeAttr(member)}')">Datos del integrante</button><button class="btn btn-outline btn-sm" type="button" onclick="state.selectedTeamMember='';renderTeamView()">Volver</button></div></div><div class="team-panel-body team-panel-body-v22"><div class="team-left-v22">${renderStatus91(member)}</div>${renderTeamProfileCardV22(member)}<div class="team-charts-v22">${getMemberMetricsCharts(member)}</div></div></section>`;
+};
+function openTeamDataModal(member){
+  const isNew=!member;
+  const p=isNew ? teamProfileEmptyV22('') : {...getTeamProfile(member)};
+  const birth=normalizeTeamDateV22(p.fechaNacimiento||'');
+  closeTeamDataModal();
+  const backdrop=document.createElement('div');
+  backdrop.id='teamDataTempModal';
+  backdrop.className='modal-backdrop open reference-data-modal';
+  backdrop.innerHTML=`<div class="modal"><div class="modal-header"><h2 class="modal-title">Datos del integrante</h2><button class="icon-btn" type="button" onclick="closeTeamDataModal()">${iconSVG('close')}</button></div><div class="modal-body"><div class="team-data-grid"><input id="td_nombre" value="${escapeAttr(p.nombre||member||'')}" placeholder="Nombre"><input id="td_edad" value="${escapeAttr(p.edad||calcAge(birth)||'')}" placeholder="Edad"><input id="td_fechaNacimiento" type="date" value="${escapeAttr(birth)}" onchange="updateTeamZodiacPreview()"><input id="td_equipo" value="${escapeAttr(p.equipo||'')}" placeholder="Equipo"><input id="td_telefono" value="${escapeAttr(p.telefono||'')}" placeholder="Teléfono"><input id="td_roles" value="${escapeAttr(p.roles||'')}" placeholder="Roles"><textarea id="td_horarios" placeholder="Horarios laborales">${escapeHTML(p.horarios||'')}</textarea><div class="team-zodiac-box"><div id="td_signoAstro">SIGNO ASTROLÓGICO: ${escapeHTML(zodiacWestern(birth)||'-')}</div><div id="td_signoChino">${escapeHTML(chineseSign(birth)||'SIGNO CHINO: -')}</div></div></div></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="closeTeamDataModal()">Cancelar</button><button class="btn btn-amber" type="button" onclick="saveTeamDataModal('${escapeAttr(member||'')}')">Guardar</button></div></div>`;
+  document.body.appendChild(backdrop);
+  setTimeout(()=>document.getElementById('td_nombre')?.focus(),0);
+}
+openTeamModal=function(){openTeamDataModal('');};
+function closeTeamModal(){closeTeamDataModal(); const b=document.getElementById('teamModalBackdrop'); if(b){b.classList.remove('open');b.setAttribute('aria-hidden','true');}}
+async function saveTeamDataModal(member){
+  const oldName=normalizeName(member||'');
+  const typedName=normalizeName(document.getElementById('td_nombre')?.value||'');
+  if(!typedName){alert('Ingresá el nombre del integrante.');document.getElementById('td_nombre')?.focus();return;}
+  const finalName=renameTeamMemberV22(oldName,typedName);
+  if(!finalName) return;
+  const p=getTeamProfile(finalName);
+  p.nombre=finalName;
+  p.edad=document.getElementById('td_edad')?.value||'';
+  p.fechaNacimiento=normalizeTeamDateV22(document.getElementById('td_fechaNacimiento')?.value||'');
+  p.equipo=document.getElementById('td_equipo')?.value||'';
+  p.telefono=document.getElementById('td_telefono')?.value||'';
+  p.roles=document.getElementById('td_roles')?.value||'';
+  p.horarios=document.getElementById('td_horarios')?.value||'';
+  state.selectedTeamMember=finalName;
+  persistAll();markDirty();closeTeamDataModal();renderTeamPanel(finalName);
+  try{await saveAllToGoogleSheetsV20();state.dirty=false;updateSaveButton?.();showToast('Integrante guardado');}
+  catch(error){console.error('Error guardando integrante:',error);scheduleAutoSave();showToast('Guardado local. Revisá Sheets.');}
+}
+const __renderTabsV22=renderTabs;
+renderTabs=function(){
+  __renderTabsV22();
+  els.tabs.querySelectorAll('.tab').forEach(btn=>{
+    if(String(btn.textContent||'').trim().toUpperCase()==='EQUIPO'){
+      btn.addEventListener('click',(e)=>{state.selectedTeamMember='';state.activeTab='EQUIPO';closeFilterMenu();render();},true);
+    }
+  });
+};
+
 init();
 markEmbeddedLayoutDefaultsAppliedV18();
 persistColumnWidths();
@@ -5352,7 +5756,7 @@ applyRowHeightV16();
 
 
 /* ===== PATCH V20: guardado integral Sheets + clientes paralelos + versión ===== */
-const SYSTEM_VERSION_V20 = "2.0";
+const SYSTEM_VERSION_V20 = "2.5";
 const SYSTEM_LAST_VERSION_DATE_V20 = "2026-05-08";
 function nextLeadIdV20(){
   const maxId=(state.rows||[]).reduce((max,row)=>Math.max(max,Number(String(row.id||'').replace(/\D/g,''))||0),0);
@@ -5519,6 +5923,533 @@ saveClientDataTempModal=async function(id){
     showToast('Guardado local. Revisá la conexión con Sheets.');
   }
 };
+
+
+
+/* ===== PATCH FINAL 2026-05-09: lógica ventana integrante clon mockup ===== */
+(function(){
+  const TEAM_MONTHLY_ROWS_V23 = 10;
+  const TEAM_MONTHLY_COLORS_V23 = ['green','yellow','red','lime'];
+  const TEAM_COLOR_LABELS_V23 = {green:'Verde', yellow:'Amarillo', red:'Rojo', lime:'Lima'};
+  function ensureTeamExtrasV23(member){
+    const p=getTeamProfile(member);
+    if(!Array.isArray(p.monthlyPoints)) p.monthlyPoints=[];
+    for(let i=0;i<TEAM_MONTHLY_ROWS_V23;i++){
+      if(!p.monthlyPoints[i] || typeof p.monthlyPoints[i] !== 'object') p.monthlyPoints[i]={puntos:'',detalles:'',fecha:'',estado:''};
+      ['puntos','detalles','fecha','estado'].forEach(k=>{if(p.monthlyPoints[i][k] == null) p.monthlyPoints[i][k]='';});
+    }
+    if(p.sueno == null && p['sueño'] != null) p.sueno=p['sueño'];
+    if(p.sueno == null) p.sueno='';
+    return p;
+  }
+  function persistTeamSoftV23(){
+    try{persistAll();markDirty();scheduleAutoSave?.();}catch(e){console.warn(e);}
+  }
+  window.updateTeamMonthlyV23=function(member,index,key,value){
+    const p=ensureTeamExtrasV23(member);
+    const i=Number(index)||0;
+    if(!p.monthlyPoints[i]) p.monthlyPoints[i]={puntos:'',detalles:'',fecha:'',estado:''};
+    p.monthlyPoints[i][key]=value||'';
+    persistTeamSoftV23();
+  };
+  window.updateTeamMonthlyStateV23=function(member,index,value,el){
+    updateTeamMonthlyV23(member,index,'estado',value);
+    if(el) el.className='team-monthly-state-v23 '+(value||'');
+  };
+  function renderTeamMonthlyV23(member){
+    const p=ensureTeamExtrasV23(member);
+    return `<section class="team-monthly-card-v23"><table class="team-monthly-table-v23"><colgroup><col style="width:250px"><col style="width:300px"><col style="width:84px"><col style="width:76px"></colgroup><thead><tr><th>PUNTOS MENSUALES</th><th>DETALLES</th><th>FECHA</th><th>ESTADO</th></tr></thead><tbody>${p.monthlyPoints.slice(0,TEAM_MONTHLY_ROWS_V23).map((row,i)=>`<tr><td><input class="team-monthly-input-v23" value="${escapeAttr(row.puntos||'')}" oninput="updateTeamMonthlyV23('${escapeAttr(member)}',${i},'puntos',this.value)"></td><td><input class="team-monthly-input-v23" value="${escapeAttr(row.detalles||'')}" oninput="updateTeamMonthlyV23('${escapeAttr(member)}',${i},'detalles',this.value)"></td><td><input class="team-monthly-date-v23" type="date" value="${escapeAttr(row.fecha||'')}" onchange="updateTeamMonthlyV23('${escapeAttr(member)}',${i},'fecha',this.value)"></td><td><div class="team-monthly-state-wrap-v23"><select class="team-monthly-state-v23 ${escapeAttr(row.estado||'')}" onchange="updateTeamMonthlyStateV23('${escapeAttr(member)}',${i},this.value,this)"><option value="" ${!row.estado?'selected':''}>Sin color</option>${TEAM_MONTHLY_COLORS_V23.map(c=>`<option value="${c}" ${row.estado===c?'selected':''}>${TEAM_COLOR_LABELS_V23[c]}</option>`).join('')}</select></div></td></tr>`).join('')}</tbody></table></section>`;
+  }
+  function cleanChineseV23(value){return String(value||'').replace(/^SIGNO CHINO:\s*/i,'') || '-';}
+  function ageLabelV23(p){
+    const age=String(p.edad||calcAge(p.fechaNacimiento)||'').trim();
+    if(!age) return '-';
+    return /años?/i.test(age) ? age.toUpperCase() : `${age} AÑOS`;
+  }
+  function renderTeamProfileCloneV23(member){
+    const p=ensureTeamExtrasV23(member);
+    const left=[['NOMBRE',p.nombre||member||'-'],['EDAD',ageLabelV23(p)],['NACIMIENTO',formatTeamDateV22(p.fechaNacimiento)],['EQUIPO',p.equipo||'-'],['TELÉFONO',p.telefono||'-']];
+    const right=[['SUEÑO',p.sueno||'-'],['ROLES',p.roles||'-'],['HORARIOS',p.horarios||'-'],['SIGNO ASTROLÓGICO',zodiacWestern(p.fechaNacimiento)||'-'],['SIGNO CHINO',cleanChineseV23(chineseSign(p.fechaNacimiento))]];
+    const mapRow=([k,v])=>`<div class="team-info-row-v23"><span>${escapeHTML(k)}</span><b>${escapeHTML(v)}</b></div>`;
+    return `<aside class="team-info-clone-v23"><div class="team-info-title-v23">DATOS DEL INTEGRANTE</div><div class="team-info-grid-v23"><div class="team-info-col-v23">${left.map(mapRow).join('')}</div><div class="team-info-col-v23">${right.map(mapRow).join('')}</div></div></aside>`;
+  }
+  const oldOpenTeamDataModalV23 = window.openTeamDataModal || openTeamDataModal;
+  window.openTeamDataModal=function(member){
+    const isNew=!member;
+    const p=isNew ? teamProfileEmptyV22('') : {...ensureTeamExtrasV23(member)};
+    const birth=normalizeTeamDateV22(p.fechaNacimiento||'');
+    closeTeamDataModal();
+    const backdrop=document.createElement('div');
+    backdrop.id='teamDataTempModal';
+    backdrop.className='modal-backdrop open reference-data-modal';
+    backdrop.innerHTML=`<div class="modal"><div class="modal-header"><h2 class="modal-title">Datos del integrante</h2><button class="icon-btn" type="button" onclick="closeTeamDataModal()">${iconSVG('close')}</button></div><div class="modal-body"><div class="team-data-grid"><input id="td_nombre" value="${escapeAttr(p.nombre||member||'')}" placeholder="Nombre"><input id="td_edad" value="${escapeAttr(p.edad||calcAge(birth)||'')}" placeholder="Edad"><input id="td_fechaNacimiento" type="date" value="${escapeAttr(birth)}" onchange="updateTeamZodiacPreview()"><input id="td_equipo" value="${escapeAttr(p.equipo||'')}" placeholder="Equipo"><input id="td_telefono" value="${escapeAttr(p.telefono||'')}" placeholder="Teléfono"><input id="td_sueno" value="${escapeAttr(p.sueno||'')}" placeholder="Sueño"><input id="td_roles" value="${escapeAttr(p.roles||'')}" placeholder="Roles"><textarea id="td_horarios" placeholder="Horarios laborales">${escapeHTML(p.horarios||'')}</textarea><div class="team-zodiac-box"><div id="td_signoAstro">SIGNO ASTROLÓGICO: ${escapeHTML(zodiacWestern(birth)||'-')}</div><div id="td_signoChino">${escapeHTML(chineseSign(birth)||'SIGNO CHINO: -')}</div></div></div></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="closeTeamDataModal()">Cancelar</button><button class="btn btn-amber" type="button" onclick="saveTeamDataModal('${escapeAttr(member||'')}')">Guardar</button></div></div>`;
+    document.body.appendChild(backdrop);
+    setTimeout(()=>document.getElementById('td_nombre')?.focus(),0);
+  };
+  window.saveTeamDataModal=async function(member){
+    const oldName=normalizeName(member||'');
+    const typedName=normalizeName(document.getElementById('td_nombre')?.value||'');
+    if(!typedName){alert('Ingresá el nombre del integrante.');document.getElementById('td_nombre')?.focus();return;}
+    const previousProfile=oldName ? JSON.parse(JSON.stringify(ensureTeamExtrasV23(oldName))) : null;
+    const finalName=renameTeamMemberV22(oldName,typedName);
+    if(!finalName) return;
+    const p=ensureTeamExtrasV23(finalName);
+    if(previousProfile && oldName!==finalName){
+      p.monthlyPoints=previousProfile.monthlyPoints||p.monthlyPoints;
+      p.status91=previousProfile.status91||p.status91;
+      p.status91Updated=previousProfile.status91Updated||p.status91Updated;
+    }
+    p.nombre=finalName;
+    p.edad=document.getElementById('td_edad')?.value||'';
+    p.fechaNacimiento=normalizeTeamDateV22(document.getElementById('td_fechaNacimiento')?.value||'');
+    p.equipo=document.getElementById('td_equipo')?.value||'';
+    p.telefono=document.getElementById('td_telefono')?.value||'';
+    p.sueno=document.getElementById('td_sueno')?.value||'';
+    p.roles=document.getElementById('td_roles')?.value||'';
+    p.horarios=document.getElementById('td_horarios')?.value||'';
+    state.selectedTeamMember=finalName;
+    persistAll();markDirty();closeTeamDataModal();renderTeamPanel(finalName);
+    try{await saveAllToGoogleSheetsV20();state.dirty=false;updateSaveButton?.();showToast('Integrante guardado');}
+    catch(error){console.error('Error guardando integrante:',error);scheduleAutoSave();showToast('Guardado local. Revisá Sheets.');}
+  };
+  window.renderTeamPanel=function(member){
+    const p=ensureTeamExtrasV23(member);
+    const displayName=p.nombre||member;
+    els.teamBody.innerHTML=`<section class="team-panel-page mock-team-v23" style="grid-column:1/-1"><div class="team-panel-head"><div class="team-panel-title-wrap"><h2 class="team-panel-title">${escapeHTML(displayName)}</h2><div class="team-panel-sub">PANEL PERSONAL DEL INTEGRANTE</div></div><div class="team-panel-actions"><button class="btn btn-amber btn-sm" type="button" onclick="openTeamDataModal('${escapeAttr(member)}')">Datos del integrante</button><button class="btn btn-outline btn-sm" type="button" onclick="state.selectedTeamMember='';renderTeamView()">Volver</button></div></div><div class="team-panel-body"><div class="team-clone-grid-v23"><div class="team-clone-left-v23">${renderStatus91(member)}</div><div class="team-clone-monthly-v23">${renderTeamMonthlyV23(member)}</div><div class="team-clone-info-v23">${renderTeamProfileCloneV23(member)}</div></div><div class="team-clone-charts-v23">${getMemberMetricsCharts(member)}</div></div></section>`;
+  };
+})();
+
+
+
+/* ===== PATCH V25: render final del panel de integrante + versión 2.5 ===== */
+(function(){
+  const TEAM_MONTHLY_ROWS_V25 = 10;
+  const TEAM_MONTHLY_COLORS_V25 = ['green','yellow','red','lime'];
+  const TEAM_COLOR_LABELS_V25 = {green:'Verde', yellow:'Amarillo', red:'Rojo', lime:'Lima'};
+  function ensureTeamExtrasV25(member){
+    const p=getTeamProfile(member);
+    if(!Array.isArray(p.monthlyPoints)) p.monthlyPoints=[];
+    for(let i=0;i<TEAM_MONTHLY_ROWS_V25;i++){
+      if(!p.monthlyPoints[i] || typeof p.monthlyPoints[i] !== 'object') p.monthlyPoints[i]={puntos:'',detalles:'',fecha:'',estado:''};
+      ['puntos','detalles','fecha','estado'].forEach(k=>{if(p.monthlyPoints[i][k] == null) p.monthlyPoints[i][k]='';});
+    }
+    if(p.sueno == null && p['sueño'] != null) p.sueno=p['sueño'];
+    if(p.sueno == null) p.sueno='';
+    return p;
+  }
+  function statusFallbackV25(member,index,row){
+    const explicit=row?.estado||'';
+    if(explicit) return explicit;
+    try{
+      const statusKey=STATUS91_ITEMS?.[index];
+      return statusKey ? (getTeamProfile(member).status91?.[statusKey] || '') : '';
+    }catch(e){return '';}
+  }
+  function renderTeamMonthlyV25(member){
+    const p=ensureTeamExtrasV25(member);
+    const rows=p.monthlyPoints.slice(0,TEAM_MONTHLY_ROWS_V25).map((row,i)=>{
+      const displayState=statusFallbackV25(member,i,row);
+      const dateClass=row.fecha ? ' has-value' : '';
+      return `<tr><td><input class="team-monthly-input-v23" value="${escapeAttr(row.puntos||'')}" oninput="updateTeamMonthlyV23('${escapeAttr(member)}',${i},'puntos',this.value)"></td><td><input class="team-monthly-input-v23" value="${escapeAttr(row.detalles||'')}" oninput="updateTeamMonthlyV23('${escapeAttr(member)}',${i},'detalles',this.value)"></td><td><input class="team-monthly-date-v23${dateClass}" type="date" value="${escapeAttr(row.fecha||'')}" onchange="this.classList.toggle('has-value',!!this.value);updateTeamMonthlyV23('${escapeAttr(member)}',${i},'fecha',this.value)"></td><td><div class="team-monthly-state-wrap-v23"><select class="team-monthly-state-v23 ${escapeAttr(displayState)}" onchange="updateTeamMonthlyStateV23('${escapeAttr(member)}',${i},this.value,this)"><option value="" ${!displayState?'selected':''}>Sin color</option>${TEAM_MONTHLY_COLORS_V25.map(c=>`<option value="${c}" ${displayState===c?'selected':''}>${TEAM_COLOR_LABELS_V25[c]}</option>`).join('')}</select></div></td></tr>`;
+    }).join('');
+    return `<section class="team-monthly-card-v23"><table class="team-monthly-table-v23"><colgroup><col style="width:270px"><col style="width:330px"><col style="width:80px"><col style="width:80px"></colgroup><thead><tr><th>PUNTOS MENSUALES</th><th>DETALLES</th><th>FECHA</th><th>ESTADO</th></tr></thead><tbody>${rows}</tbody></table></section>`;
+  }
+  function cleanChineseV25(value){return String(value||'').replace(/^SIGNO CHINO:\s*/i,'') || '-';}
+  function ageLabelV25(p){
+    const age=String(p.edad||calcAge(p.fechaNacimiento)||'').trim();
+    if(!age) return '-';
+    return /años?/i.test(age) ? age.toUpperCase() : `${age} AÑOS`;
+  }
+  function renderTeamProfileCloneV25(member){
+    const p=ensureTeamExtrasV25(member);
+    const left=[['NOMBRE',p.nombre||member||'-'],['EDAD',ageLabelV25(p)],['NACIMIENTO',formatTeamDateV22(p.fechaNacimiento)],['EQUIPO',p.equipo||'-'],['TELÉFONO',p.telefono||'-']];
+    const right=[['SUEÑO',p.sueno||'-'],['ROLES',p.roles||'-'],['HORARIOS',p.horarios||'-'],['SIGNO ASTROLÓGICO',zodiacWestern(p.fechaNacimiento)||'-'],['SIGNO CHINO',cleanChineseV25(chineseSign(p.fechaNacimiento))]];
+    const mapRow=([k,v])=>`<div class="team-info-row-v23"><span>${escapeHTML(k)}</span><b title="${escapeAttr(v)}">${escapeHTML(v)}</b></div>`;
+    return `<aside class="team-info-clone-v23"><div class="team-info-title-v23">DATOS DEL INTEGRANTE</div><div class="team-info-grid-v23"><div class="team-info-col-v23">${left.map(mapRow).join('')}</div><div class="team-info-col-v23">${right.map(mapRow).join('')}</div></div></aside>`;
+  }
+  window.renderTeamPanel=function(member){
+    const p=ensureTeamExtrasV25(member);
+    const displayName=p.nombre||member;
+    els.teamBody.innerHTML=`<section class="team-panel-page mock-team-v23" style="grid-column:1/-1"><div class="team-panel-head"><div class="team-panel-title-wrap"><h2 class="team-panel-title">${escapeHTML(displayName)}</h2><div class="team-panel-sub">PANEL PERSONAL DEL INTEGRANTE</div></div><div class="team-panel-actions"><button class="btn btn-amber btn-sm" type="button" onclick="openTeamDataModal('${escapeAttr(member)}')">Datos del integrante</button><button class="btn btn-outline btn-sm" type="button" onclick="state.selectedTeamMember='';renderTeamView()">Volver</button></div></div><div class="team-panel-body"><div class="team-clone-grid-v23"><div class="team-clone-left-v23">${renderStatus91(member)}</div><div class="team-clone-monthly-v23">${renderTeamMonthlyV25(member)}</div><div class="team-clone-info-v23">${renderTeamProfileCloneV25(member)}</div></div><div class="team-clone-charts-v23">${getMemberMetricsCharts(member)}</div></div></section>`;
+  };
+
+  window.showSystemInfoV25=function(){
+    const old=document.getElementById('systemInfoTempModal'); if(old) old.remove();
+    const backdrop=document.createElement('div');
+    backdrop.id='systemInfoTempModal';
+    backdrop.className='modal-backdrop open';
+    backdrop.innerHTML=`<div class="modal" style="max-width:900px"><div class="modal-header"><h2 class="modal-title">Información del sistema</h2><button class="icon-btn" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">${iconSVG('close')}</button></div><div class="modal-body" style="text-align:center;display:block;padding:42px 24px"><h3 style="font-size:18px;font-weight:900;margin:0 0 14px;color:#07152f">Creador del sistema ventas</h3><div style="font-size:40px;font-weight:900;letter-spacing:-.04em;color:#07152f;line-height:1">Ciro Meza</div><p style="font-weight:900;color:#07152f;margin:22px 0 0">Versión 2.5</p><p style="font-weight:800;color:#64748b;margin:8px 0 0">Última actualización: 2026-05-09</p><p style="font-weight:800;color:#64748b;margin:18px 0 0">Gracias por usar el sistema</p></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="document.getElementById('systemInfoTempModal').remove()">Cerrar</button></div></div>`;
+    document.body.appendChild(backdrop);
+  };
+  showSystemInfo=window.showSystemInfoV25;
+  if(els?.infoSystemBtn){
+    els.infoSystemBtn.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();window.showSystemInfoV25();},true);
+  }
+})();
+
+
+/* ===== PATCH V26: títulos cortos de métricas + render final corregido ===== */
+(function(){
+  function monthTitleCaseV26(monthKey){
+    const label=monthLabelFromKey(monthKey||todayBuenosAires().slice(0,7));
+    const month=String(label||'').split(' DE ')[0] || label;
+    return month.charAt(0).toUpperCase()+month.slice(1).toLowerCase();
+  }
+  window.getMemberMetricsCharts=function(member){
+    const monthKey=state.appSettings.calendarViewMonth || todayBuenosAires().slice(0,7);
+    const monthName=monthLabelFromKey(monthKey);
+    const monthShort=monthTitleCaseV26(monthKey);
+    const contactos=groupByDateCountFullMonth(state.rows,member,["CRM","REUNION_1","REUNION_2","SEGUIMIENTO","CLIENTES"]);
+    const reuniones=groupByDateCountFullMonth(state.rows,member,["REUNION_1","REUNION_2"]);
+    const cierres=groupByDateCountFullMonth(state.rows,member,["CLIENTES"]);
+    return `
+      <div style="grid-column:1/-1; display:flex; flex-direction:column; gap:16px;">
+        <div class="month-controls-panel"><h3>MÉTRICAS DE ${escapeHTML(member)} · ${escapeHTML(monthName)}</h3><div class="month-controls-actions"><button class="calendar-mini-btn" type="button" onclick="shiftMetricsMonth(-1,'team')">‹</button><div class="calendar-month-label-v11">${escapeHTML(monthName)}</div><button class="calendar-mini-btn" type="button" onclick="shiftMetricsMonth(1,'team')">›</button><button class="month-current-btn" type="button" onclick="goCurrentMetricsMonth('team')">MES ACTUAL</button></div></div>
+        <div class="charts-grid">${createBarChart(`Contactos de ${monthShort}`,contactos,"#38bdf8")}${createBarChart(`Reuniones de ${monthShort}`,reuniones,"#f6bf26")}${createBarChart(`Clientes cerrados de ${monthShort}`,cierres,"#10254b")}</div>
+      </div>
+    `;
+  };
+
+  function ensureExtrasV26(member){
+    const p=getTeamProfile(member);
+    if(!Array.isArray(p.monthlyPoints)) p.monthlyPoints=[];
+    for(let i=0;i<10;i++){
+      if(!p.monthlyPoints[i] || typeof p.monthlyPoints[i] !== 'object') p.monthlyPoints[i]={puntos:'',detalles:'',fecha:'',estado:''};
+      ['puntos','detalles','fecha','estado'].forEach(k=>{if(p.monthlyPoints[i][k] == null) p.monthlyPoints[i][k]='';});
+    }
+    if(p.sueno == null && p['sueño'] != null) p.sueno=p['sueño'];
+    if(p.sueno == null) p.sueno='';
+    return p;
+  }
+  function statusFallbackV26(member,index,row){
+    const explicit=row?.estado||'';
+    if(explicit) return explicit;
+    try{
+      const statusKey=STATUS91_ITEMS?.[index];
+      return statusKey ? (getTeamProfile(member).status91?.[statusKey] || '') : '';
+    }catch(e){return '';}
+  }
+  function renderTeamMonthlyV26(member){
+    const p=ensureExtrasV26(member);
+    const colors=['green','yellow','red','lime'];
+    const labels={green:'Verde',yellow:'Amarillo',red:'Rojo',lime:'Lima'};
+    const rows=p.monthlyPoints.slice(0,10).map((row,i)=>{
+      const displayState=statusFallbackV26(member,i,row);
+      const dateClass=row.fecha ? ' has-value' : '';
+      return `<tr><td><input class="team-monthly-input-v23" value="${escapeAttr(row.puntos||'')}" oninput="updateTeamMonthlyV23('${escapeAttr(member)}',${i},'puntos',this.value)"></td><td><input class="team-monthly-input-v23" value="${escapeAttr(row.detalles||'')}" oninput="updateTeamMonthlyV23('${escapeAttr(member)}',${i},'detalles',this.value)"></td><td><input class="team-monthly-date-v23${dateClass}" type="date" value="${escapeAttr(row.fecha||'')}" onchange="this.classList.toggle('has-value',!!this.value);updateTeamMonthlyV23('${escapeAttr(member)}',${i},'fecha',this.value)"></td><td><div class="team-monthly-state-wrap-v23"><select class="team-monthly-state-v23 ${escapeAttr(displayState)}" onchange="updateTeamMonthlyStateV23('${escapeAttr(member)}',${i},this.value,this)"><option value="" ${!displayState?'selected':''}>Sin color</option>${colors.map(c=>`<option value="${c}" ${displayState===c?'selected':''}>${labels[c]}</option>`).join('')}</select></div></td></tr>`;
+    }).join('');
+    return `<section class="team-monthly-card-v23"><table class="team-monthly-table-v23"><colgroup><col><col><col><col></colgroup><thead><tr><th>PUNTOS MENSUALES</th><th>DETALLES</th><th>FECHA</th><th>ESTADO</th></tr></thead><tbody>${rows}</tbody></table></section>`;
+  }
+  function cleanChineseV26(value){return String(value||'').replace(/^SIGNO CHINO:\s*/i,'') || '-';}
+  function ageLabelV26(p){
+    const age=String(p.edad||calcAge(p.fechaNacimiento)||'').trim();
+    if(!age) return '-';
+    return /años?/i.test(age) ? age.toUpperCase() : `${age} AÑOS`;
+  }
+  function renderTeamProfileCloneV26(member){
+    const p=ensureExtrasV26(member);
+    const left=[['NOMBRE',p.nombre||member||'-'],['EDAD',ageLabelV26(p)],['NACIMIENTO',formatTeamDateV22(p.fechaNacimiento)],['EQUIPO',p.equipo||'-'],['TELÉFONO',p.telefono||'-']];
+    const right=[['SUEÑO',p.sueno||'-'],['ROLES',p.roles||'-'],['HORARIOS',p.horarios||'-'],['SIGNO ASTROLÓGICO',zodiacWestern(p.fechaNacimiento)||'-'],['SIGNO CHINO',cleanChineseV26(chineseSign(p.fechaNacimiento))]];
+    const mapRow=([k,v])=>`<div class="team-info-row-v23"><span>${escapeHTML(k)}</span><b title="${escapeAttr(v)}">${escapeHTML(v)}</b></div>`;
+    return `<aside class="team-info-clone-v23"><div class="team-info-title-v23">DATOS DEL INTEGRANTE</div><div class="team-info-grid-v23"><div class="team-info-col-v23">${left.map(mapRow).join('')}</div><div class="team-info-col-v23">${right.map(mapRow).join('')}</div></div></aside>`;
+  }
+  window.renderTeamPanel=function(member){
+    const p=ensureExtrasV26(member);
+    const displayName=p.nombre||member;
+    els.teamBody.innerHTML=`<section class="team-panel-page mock-team-v23" style="grid-column:1/-1"><div class="team-panel-head"><div class="team-panel-title-wrap"><h2 class="team-panel-title">${escapeHTML(displayName)}</h2><div class="team-panel-sub">PANEL PERSONAL DEL INTEGRANTE</div></div><div class="team-panel-actions"><button class="btn btn-amber btn-sm" type="button" onclick="openTeamDataModal('${escapeAttr(member)}')">Datos del integrante</button><button class="btn btn-outline btn-sm" type="button" onclick="state.selectedTeamMember='';renderTeamView()">Volver</button></div></div><div class="team-panel-body"><div class="team-clone-grid-v23"><div class="team-clone-left-v23">${renderStatus91(member)}</div><div class="team-clone-monthly-v23">${renderTeamMonthlyV26(member)}</div><div class="team-clone-info-v23">${renderTeamProfileCloneV26(member)}</div></div><div class="team-clone-charts-v23">${getMemberMetricsCharts(member)}</div></div></section>`;
+  };
+})();
+
+
+
+/* ===== PATCH V27: guardado completo de Equipo + cumpleaños + render final ===== */
+(function(){
+  const TEAM_PROFILE_VERSION_V27='2.7';
+  const BIRTHDAY_GUARD_MS_V27=4500;
+  const birthdayGuardV27={};
+
+  function ensureTeamProfileExtrasV27(member){
+    const p=getTeamProfile(member);
+    if(!Array.isArray(p.monthlyPoints)) p.monthlyPoints=[];
+    for(let i=0;i<10;i++){
+      if(!p.monthlyPoints[i] || typeof p.monthlyPoints[i] !== 'object') p.monthlyPoints[i]={puntos:'',detalles:'',fecha:'',estado:''};
+      ['puntos','detalles','fecha','estado'].forEach(k=>{ if(p.monthlyPoints[i][k] == null) p.monthlyPoints[i][k]=''; });
+    }
+    if(!p.status91 || typeof p.status91!=='object') p.status91={};
+    if(p.sueno == null && p['sueño'] != null) p.sueno=p['sueño'];
+    if(p.sueno == null) p.sueno='';
+    const age=calcAge(normalizeTeamDateV22(p.fechaNacimiento||''));
+    if(age) p.edad=String(age);
+    p.updatedAt=p.updatedAt||'';
+    return p;
+  }
+
+  function normalizeAllTeamProfilesV27(){
+    if(!state.appSettings.teamProfiles || typeof state.appSettings.teamProfiles!=='object') state.appSettings.teamProfiles={};
+    (state.team||[]).forEach(member=>ensureTeamProfileExtrasV27(member));
+  }
+
+  function buildTeamSheetPayloadV27(){
+    normalizeAllTeamProfilesV27();
+    return {
+      version:TEAM_PROFILE_VERSION_V27,
+      updatedAt:formatNow(),
+      members:state.team||[],
+      profiles:state.appSettings.teamProfiles||{}
+    };
+  }
+
+  function applyTeamSheetPayloadV27(teamData){
+    if(Array.isArray(teamData)){
+      state.team=uniqueNames([...DEFAULT_TEAM,...teamData]);
+      return;
+    }
+    if(teamData && typeof teamData==='object'){
+      const members=Array.isArray(teamData.members) ? teamData.members : [];
+      const profiles=teamData.profiles && typeof teamData.profiles==='object' ? teamData.profiles : {};
+      state.team=uniqueNames([...DEFAULT_TEAM,...members,Object.keys(profiles)]);
+      state.appSettings.teamProfiles={...(state.appSettings.teamProfiles||{}),...profiles};
+      normalizeAllTeamProfilesV27();
+    }
+  }
+
+  function ageLabelV27(p){
+    const computed=calcAge(normalizeTeamDateV22(p.fechaNacimiento||''));
+    const age=String(computed || p.edad || '').trim();
+    if(!age) return '-';
+    return /años?/i.test(age) ? age.toUpperCase() : `${age} AÑOS`;
+  }
+
+  function cleanChineseV27(value){return String(value||'').replace(/^SIGNO CHINO:\s*/i,'') || '-';}
+
+  function renderTeamProfileCloneV27(member){
+    const p=ensureTeamProfileExtrasV27(member);
+    const left=[['NOMBRE',p.nombre||member||'-'],['EDAD',ageLabelV27(p)],['NACIMIENTO',formatTeamDateV22(p.fechaNacimiento)],['EQUIPO',p.equipo||'-'],['TELÉFONO',p.telefono||'-']];
+    const right=[['SUEÑO',p.sueno||'-'],['ROLES',p.roles||'-'],['HORARIOS',p.horarios||'-'],['SIGNO ASTROLÓGICO',zodiacWestern(p.fechaNacimiento)||'-'],['SIGNO CHINO',cleanChineseV27(chineseSign(p.fechaNacimiento))]];
+    const mapRow=([k,v])=>`<div class="team-info-row-v23"><span>${escapeHTML(k)}</span><b title="${escapeAttr(v)}">${escapeHTML(v)}</b></div>`;
+    return `<aside class="team-info-clone-v23"><div class="team-info-title-v23">DATOS DEL INTEGRANTE</div><div class="team-info-grid-v23"><div class="team-info-col-v23">${left.map(mapRow).join('')}</div><div class="team-info-col-v23">${right.map(mapRow).join('')}</div></div></aside>`;
+  }
+
+  function statusFallbackV27(member,index,row){
+    const explicit=row?.estado||'';
+    if(explicit) return explicit;
+    try{
+      const statusKey=STATUS91_ITEMS?.[index];
+      return statusKey ? (getTeamProfile(member).status91?.[statusKey] || '') : '';
+    }catch(e){return '';}
+  }
+
+  function renderTeamMonthlyV27(member){
+    const p=ensureTeamProfileExtrasV27(member);
+    const colors=['green','yellow','red','lime'];
+    const labels={green:'Verde',yellow:'Amarillo',red:'Rojo',lime:'Lima'};
+    const rows=p.monthlyPoints.slice(0,10).map((row,i)=>{
+      const displayState=statusFallbackV27(member,i,row);
+      const dateClass=row.fecha ? ' has-value' : '';
+      return `<tr><td><input class="team-monthly-input-v23" value="${escapeAttr(row.puntos||'')}" oninput="updateTeamMonthlyV23('${escapeAttr(member)}',${i},'puntos',this.value)"></td><td><input class="team-monthly-input-v23" value="${escapeAttr(row.detalles||'')}" oninput="updateTeamMonthlyV23('${escapeAttr(member)}',${i},'detalles',this.value)"></td><td><input class="team-monthly-date-v23${dateClass}" type="date" value="${escapeAttr(row.fecha||'')}" onchange="this.classList.toggle('has-value',!!this.value);updateTeamMonthlyV23('${escapeAttr(member)}',${i},'fecha',this.value)"></td><td><div class="team-monthly-state-wrap-v23"><select class="team-monthly-state-v23 ${escapeAttr(displayState)}" onchange="updateTeamMonthlyStateV23('${escapeAttr(member)}',${i},this.value,this)"><option value="" ${!displayState?'selected':''}>Sin color</option>${colors.map(c=>`<option value="${c}" ${displayState===c?'selected':''}>${labels[c]}</option>`).join('')}</select></div></td></tr>`;
+    }).join('');
+    return `<section class="team-monthly-card-v23"><table class="team-monthly-table-v23"><colgroup><col><col><col><col></colgroup><thead><tr><th>PUNTOS MENSUALES</th><th>DETALLES</th><th>FECHA</th><th>ESTADO</th></tr></thead><tbody>${rows}</tbody></table></section>`;
+  }
+
+  function isBirthdayTodayV27(dateStr){
+    const birth=normalizeTeamDateV22(dateStr||'');
+    const m=birth.match(/^\d{4}-(\d{2})-(\d{2})$/);
+    if(!m) return false;
+    const today=todayBuenosAires();
+    return today.slice(5,10)===`${m[1]}-${m[2]}`;
+  }
+
+  function playBirthdayMelodyV27(){
+    try{
+      const AudioCtx=window.AudioContext || window.webkitAudioContext;
+      const ctx=new AudioCtx();
+      if(ctx.state==='suspended') ctx.resume?.();
+      const master=ctx.createGain();
+      master.gain.setValueAtTime(0.0001,ctx.currentTime);
+      master.gain.exponentialRampToValueAtTime(0.16,ctx.currentTime+0.05);
+      master.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+20);
+      master.connect(ctx.destination);
+      const beat=0.46;
+      const A4=440;
+      const midiToFreq=n=>A4*Math.pow(2,(n-69)/12);
+      const melody=[
+        [67,.75],[67,.25],[69,1],[67,1],[72,1],[71,2],
+        [67,.75],[67,.25],[69,1],[67,1],[74,1],[72,2],
+        [67,.75],[67,.25],[79,1],[76,1],[72,1],[71,1],[69,2],
+        [77,.75],[77,.25],[76,1],[72,1],[74,1],[72,2]
+      ];
+      const harmonyShift=[-7,-4];
+      let t=ctx.currentTime+0.08;
+      for(let repeat=0;repeat<2;repeat++){
+        melody.forEach(([note,dur],idx)=>{
+          const start=t;
+          const length=dur*beat;
+          const chordRoot = note>=76 ? note-12 : note;
+          const voices=[note, chordRoot+harmonyShift[idx%2], Math.max(40,chordRoot-19)];
+          voices.forEach((vn,vi)=>{
+            const osc=ctx.createOscillator();
+            const gain=ctx.createGain();
+            osc.type=vi===0?'triangle':(vi===1?'sine':'sine');
+            osc.frequency.setValueAtTime(midiToFreq(vn),start);
+            const peak=vi===0?0.19:(vi===1?0.07:0.045);
+            gain.gain.setValueAtTime(0.0001,start);
+            gain.gain.exponentialRampToValueAtTime(peak,start+0.035);
+            gain.gain.exponentialRampToValueAtTime(0.0001,start+Math.max(0.12,length-0.035));
+            osc.connect(gain);gain.connect(master);
+            osc.start(start);osc.stop(start+length+0.05);
+          });
+          t+=length;
+        });
+        t+=beat*1.2;
+      }
+      setTimeout(()=>ctx.close?.(),22000);
+    }catch(e){console.warn('No se pudo reproducir feliz cumpleaños',e);}
+  }
+
+  function celebrateBirthdayV27(member){
+    const p=ensureTeamProfileExtrasV27(member);
+    if(!isBirthdayTodayV27(p.fechaNacimiento)) return;
+    const now=Date.now();
+    if(birthdayGuardV27[member] && now-birthdayGuardV27[member]<BIRTHDAY_GUARD_MS_V27) return;
+    birthdayGuardV27[member]=now;
+    try{launchConfetti();setTimeout(launchConfetti,900);}catch(e){}
+    playBirthdayMelodyV27();
+    showToast(`🎂 Feliz cumpleaños, ${p.nombre||member}`);
+  }
+
+  window.openTeamDataModal=function(member){
+    const isNew=!member;
+    const p=isNew ? teamProfileEmptyV22('') : {...ensureTeamProfileExtrasV27(member)};
+    const birth=normalizeTeamDateV22(p.fechaNacimiento||'');
+    const computedAge=calcAge(birth)||'';
+    closeTeamDataModal();
+    const backdrop=document.createElement('div');
+    backdrop.id='teamDataTempModal';
+    backdrop.className='modal-backdrop open reference-data-modal';
+    backdrop.innerHTML=`<div class="modal"><div class="modal-header"><h2 class="modal-title">Datos del integrante</h2><button class="icon-btn" type="button" onclick="closeTeamDataModal()">${iconSVG('close')}</button></div><div class="modal-body"><div class="team-data-grid"><input id="td_nombre" value="${escapeAttr(p.nombre||member||'')}" placeholder="Nombre"><input id="td_edad" value="${escapeAttr(computedAge)}" placeholder="Edad automática" readonly><input id="td_fechaNacimiento" type="date" value="${escapeAttr(birth)}" onchange="updateTeamZodiacPreview()"><input id="td_equipo" value="${escapeAttr(p.equipo||'')}" placeholder="Equipo"><input id="td_telefono" value="${escapeAttr(p.telefono||'')}" placeholder="Teléfono"><input id="td_sueno" value="${escapeAttr(p.sueno||'')}" placeholder="Sueño"><input id="td_roles" value="${escapeAttr(p.roles||'')}" placeholder="Roles"><textarea id="td_horarios" placeholder="Horarios laborales">${escapeHTML(p.horarios||'')}</textarea><div class="team-zodiac-box"><div id="td_signoAstro">SIGNO ASTROLÓGICO: ${escapeHTML(zodiacWestern(birth)||'-')}</div><div id="td_signoChino">${escapeHTML(chineseSign(birth)||'SIGNO CHINO: -')}</div></div></div></div><div class="modal-footer"><button class="btn btn-outline" type="button" onclick="closeTeamDataModal()">Cancelar</button><button class="btn btn-amber" type="button" onclick="saveTeamDataModal('${escapeAttr(member||'')}')">Guardar</button></div></div>`;
+    document.body.appendChild(backdrop);
+  };
+
+  window.updateTeamZodiacPreview=function(){
+    const v=normalizeTeamDateV22(document.getElementById('td_fechaNacimiento')?.value||'');
+    const a=document.getElementById('td_signoAstro');
+    const c=document.getElementById('td_signoChino');
+    const edad=document.getElementById('td_edad');
+    if(a)a.textContent='SIGNO ASTROLÓGICO: '+(zodiacWestern(v)||'-');
+    if(c)c.textContent=chineseSign(v)||'SIGNO CHINO: -';
+    if(edad)edad.value=calcAge(v)||'';
+  };
+
+  window.saveTeamDataModal=async function(member){
+    const typedName=normalizeName(document.getElementById('td_nombre')?.value||member||'');
+    if(!typedName){showToast('Completá el nombre del integrante');return;}
+    const oldName=member && state.team.includes(member) ? member : '';
+    const previousProfile=oldName ? JSON.parse(JSON.stringify(ensureTeamProfileExtrasV27(oldName))) : null;
+    const finalName=renameTeamMemberV22(oldName,typedName);
+    if(!state.team.includes(finalName)) state.team=uniqueNames([...state.team,finalName]);
+    const p=ensureTeamProfileExtrasV27(finalName);
+    if(previousProfile){
+      p.status91=previousProfile.status91||p.status91;
+      p.status91Updated=previousProfile.status91Updated||p.status91Updated;
+      p.monthlyPoints=previousProfile.monthlyPoints||p.monthlyPoints;
+    }
+    p.nombre=typedName;
+    p.fechaNacimiento=normalizeTeamDateV22(document.getElementById('td_fechaNacimiento')?.value||'');
+    p.edad=String(calcAge(p.fechaNacimiento)||'');
+    p.equipo=document.getElementById('td_equipo')?.value||'';
+    p.telefono=document.getElementById('td_telefono')?.value||'';
+    p.sueno=document.getElementById('td_sueno')?.value||'';
+    p.roles=document.getElementById('td_roles')?.value||'';
+    p.horarios=document.getElementById('td_horarios')?.value||'';
+    p.updatedAt=formatNow();
+    state.selectedTeamMember=finalName;
+    normalizeAllTeamProfilesV27();
+    persistAll();markDirty();closeTeamDataModal();renderTeamPanel(finalName);scheduleAutoSave();
+  };
+
+  const originalUpdateStatus91ColorV27=window.updateStatus91Color || updateStatus91Color;
+  window.updateStatus91Color=function(member,key,value){
+    const p=ensureTeamProfileExtrasV27(member);
+    p.status91[key]=value||'';
+    p.status91Updated=status91Date();
+    p.updatedAt=formatNow();
+    normalizeAllTeamProfilesV27();
+    persistAll();
+    renderTeamPanel(member);
+    scheduleAutoSave();
+  };
+
+  const originalUpdateTeamMonthlyV27=window.updateTeamMonthlyV23;
+  window.updateTeamMonthlyV23=function(member,index,key,value){
+    const p=ensureTeamProfileExtrasV27(member);
+    const i=Number(index)||0;
+    if(!p.monthlyPoints[i]) p.monthlyPoints[i]={puntos:'',detalles:'',fecha:'',estado:''};
+    p.monthlyPoints[i][key]=value||'';
+    p.updatedAt=formatNow();
+    normalizeAllTeamProfilesV27();
+    try{persistAll();markDirty();scheduleAutoSave?.();}catch(e){console.warn(e);}
+  };
+  window.updateTeamMonthlyStateV23=function(member,index,value,el){
+    updateTeamMonthlyV23(member,index,'estado',value);
+    if(el) el.className='team-monthly-state-v23 '+(value||'');
+  };
+
+  window.renderTeamPanel=function(member){
+    const p=ensureTeamProfileExtrasV27(member);
+    const displayName=p.nombre||member;
+    els.teamBody.innerHTML=`<section class="team-panel-page mock-team-v23" style="grid-column:1/-1"><div class="team-panel-head"><div class="team-panel-title-wrap"><h2 class="team-panel-title">${escapeHTML(displayName)}</h2><div class="team-panel-sub">PANEL PERSONAL DEL INTEGRANTE</div></div><div class="team-panel-actions"><button class="btn btn-amber btn-sm" type="button" onclick="openTeamDataModal('${escapeAttr(member)}')">Datos del integrante</button><button class="btn btn-outline btn-sm" type="button" onclick="state.selectedTeamMember='';renderTeamView()">Volver</button></div></div><div class="team-panel-body"><div class="team-clone-layout-v27"><div class="team-clone-info-v27">${renderTeamProfileCloneV27(member)}</div><div class="team-clone-main-v27"><div class="team-clone-status-v27">${renderStatus91(member)}</div><div class="team-clone-monthly-v27">${renderTeamMonthlyV27(member)}</div></div></div><div class="team-clone-charts-v23">${getMemberMetricsCharts(member)}</div></div></section>`;
+    setTimeout(()=>celebrateBirthdayV27(member),120);
+  };
+
+  const originalSaveAllToGoogleSheetsV27=saveAllToGoogleSheets;
+  saveAllToGoogleSheets=async function(){
+    normalizeAllContentEventsV15?.();
+    normalizeAllTeamProfilesV27();
+    const payload={
+      action:'saveAll',
+      rows:state.rows,
+      clients:typeof clientsSheetRowsV20==='function'?clientsSheetRowsV20():undefined,
+      team:buildTeamSheetPayloadV27(),
+      dashboardSettings:state.dashboardSettings,
+      columnWidths:state.columnWidths,
+      appSettings:state.appSettings,
+      awarded:state.awarded,
+      contentEvents:state.contentEvents,
+      managementEvents:state.managementEvents
+    };
+    const response=await fetch(getGoogleSheetsApiUrl(),{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+    const result=await response.json();
+    if(!result.ok) throw new Error(result.error||'Google Sheets no confirmó el guardado integral');
+    return result;
+  };
+
+  loadFromGoogleSheets=async function(){
+    try{
+      const response=await fetch(`${getGoogleSheetsApiUrl()}?t=${Date.now()}`,{method:'GET',cache:'no-store'});
+      if(!response.ok) throw new Error(`HTTP ${response.status}`);
+      const payload=await response.json();
+      if(!payload.ok||!payload.data) throw new Error(payload.error||'Respuesta inválida de Google Sheets');
+      const data=payload.data;
+      if(Array.isArray(data.rows)&&data.rows.length>0) state.rows=migrateLegacyRows(data.rows);
+      if(typeof mergeClientsIntoRowsV20==='function') mergeClientsIntoRowsV20(data.clients||[]);
+      applyTeamSheetPayloadV27(data.team);
+      if(data.dashboardSettings&&typeof data.dashboardSettings==='object') state.dashboardSettings={todayGoals:data.dashboardSettings.todayGoals||{},clientsGoal:Number(data.dashboardSettings.clientsGoal)>0?Number(data.dashboardSettings.clientsGoal):21,chartScale:Number(data.dashboardSettings.chartScale)||Number(state.dashboardSettings.chartScale)||1};
+      if(data.columnWidths&&typeof data.columnWidths==='object') state.columnWidths={...getDefaultColumnWidths(),...data.columnWidths};
+      if(Array.isArray(data.contentEvents)) state.contentEvents=data.contentEvents.map(contentEventFromSheetRowV13).map((e,i)=>normalizeContentEventV15(e,i));
+      if(Array.isArray(data.managementEvents)) state.managementEvents=data.managementEvents.map(gestionEventFromSheetRowV13);
+      if(data.appSettings&&typeof data.appSettings==='object'){
+        const existingProfiles=(state.appSettings&&state.appSettings.teamProfiles)||{};
+        state.appSettings={...DEFAULT_APP_SETTINGS,...state.appSettings,...data.appSettings,badgeRequirements:{...DEFAULT_APP_SETTINGS.badgeRequirements,...(state.appSettings.badgeRequirements||{}),...(data.appSettings.badgeRequirements||{})},teamProfiles:{...existingProfiles,...(data.appSettings.teamProfiles||{})}};
+      }
+      applyTeamSheetPayloadV27(data.team);
+      if(data.awarded&&typeof data.awarded==='object') state.awarded=data.awarded;
+      initGoalsForTeam();normalizeStateRows();ensureLayoutDefaultsV17();normalizeAllTeamProfilesV27();persistAll();render();checkBadgeAwards();checkTodayMeetingNotifications();showToast('Datos cargados desde Google Sheets');
+    }catch(error){console.error('No se pudo cargar desde Google Sheets:',error);showToast('Usando datos locales');}
+  };
+
+  window.__teamSheetPayloadV27=buildTeamSheetPayloadV27;
+})();
 
 </script>
 </body>
